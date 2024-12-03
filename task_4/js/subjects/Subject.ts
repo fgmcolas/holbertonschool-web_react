@@ -1,10 +1,7 @@
 namespace Subjects {
     export class Subject {
-        teacher: Teacher;
-        constructor() {
-            this.teacher = {} as Teacher;
-        }
-        setTeacher(teacher: Teacher): void {
+        teacher: TeacherInterface;
+        set setTeacher(teacher: TeacherInterface) {
             this.teacher = teacher;
         }
     }

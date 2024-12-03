@@ -1,22 +1,31 @@
-import { Subjects } from './subjects/Teacher';
-import { Subject } from './subjects/Subject';
-import { Cpp } from './subjects/Cpp';
-import { React } from './subjects/React';
-import { Java } from './subjects/Java';
+const cpp = new Subjects.Cpp();
+const java = new Subjects.Java();
+const react = new Subjects.React();
 
-const teacher: Subjects.Teacher = { firstName: 'John', lastName: 'Doe' };
-const cppSubject = new Subjects.Cpp();
-cppSubject.setTeacher(teacher);
-console.log(cppSubject.getRequirements());
-console.log(cppSubject.getAvailableTeacher());
+let cTeacher = {
+    firstName: 'Pablo',
+    lastName: 'Escobar',
+    experienceTeachingC: 10,
+};
 
-teacher.experienceTeachingC = 5;
-console.log(cppSubject.getAvailableTeacher());
+console.log('C++');
+cpp.setTeacher = cTeacher;
+console.log(cpp.getRequirements());
+console.log(cpp.getAvailableTeacher());
 
-const reactSubject = new Subjects.React();
-reactSubject.setTeacher(teacher);
-console.log(reactSubject.getRequirements());
-console.log(reactSubject.getAvailableTeacher());
+console.log('Java');
+java.setTeacher = cTeacher;
+console.log(java.getRequirements());
+console.log(java.getAvailableTeacher());
 
-teacher.experienceTeachingReact = 3;
-console.log(reactSubject.getAvailableTeacher());
+console.log('React');
+react.setTeacher = cTeacher;
+console.log(react.getRequirements());
+console.log(react.getAvailableTeacher());
+
+export {
+    cpp,
+    java,
+    react,
+    cTeacher,
+}
