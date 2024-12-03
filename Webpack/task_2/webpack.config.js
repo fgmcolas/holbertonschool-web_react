@@ -5,7 +5,6 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'public'),
         filename: 'bundle.js',
-        publicPath: '/public'
     },
     mode: 'production',
     module: {
@@ -16,16 +15,7 @@ module.exports = {
             },
             {
                 test: /\.(gif|png|jpe?g|svg)$/i,
-                use: [
-                    "file-loader",
-                    {
-                        loader: "image-webpack-loader",
-                        options: {
-                            bypassingOnDebug: true,
-                            disable: true,
-                        },
-                    },
-                ],
+                type: 'asset/resource',
             },
         ],
     },
