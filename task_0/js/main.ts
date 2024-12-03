@@ -19,23 +19,25 @@ const student2: Student = {
     location: "NotBornYet"
 };
 
-const studentsList: Student[] = [student1, student2];
+const studentsList: Array<Student> = [student1, student2]
 
 const table: HTMLTableElement = document.createElement('table');
+
 document.body.appendChild(table);
 
-const tablehead: HTMLTableSectionElement = document.createElement('tablehead');
-tablehead.innerHTML = '<tr><th>FirstName</th><th>Location</th></tr>';
-table.appendChild(tablehead);
-const tablebody: HTMLTableSectionElement = document.createElement('tablebody');
-table.appendChild(tablebody);
+const thead: HTMLTableSectionElement = document.createElement('thead');
+thead.innerHTML = '<tr><th>FirstName</th><th>Location</th></tr>';
+table.appendChild(thead);
+const tbody: HTMLTableSectionElement = document.createElement('tbody');
+table.appendChild(tbody);
 for (let i: number = 0; i < studentsList.length; i++) {
     const row: HTMLTableRowElement = document.createElement('tr');
-    const nameCell: HTMLTableCellElement = document.createElement('th');
-    const locCell: HTMLTableCellElement = document.createElement('th');
-    nameCell.innerHTML = studentsList[i].firstName;
-    locCell.innerHTML = studentsList[i].location;
-    row.appendChild(nameCell);
-    row.appendChild(locCell);
-    tablebody.appendChild(row);
+    const th1: HTMLTableCellElement = document.createElement('th');
+    const th2: HTMLTableCellElement = document.createElement('th');
+    th1.innerHTML = studentsList[i].firstName;
+    th2.innerHTML = studentsList[i].location;
+    row.appendChild(th1);
+    row.appendChild(th2);
+
+    tbody.appendChild(row);
 }
