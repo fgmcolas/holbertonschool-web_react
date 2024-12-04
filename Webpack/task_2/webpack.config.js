@@ -11,17 +11,20 @@ module.exports = {
         rules: [
             {
                 test: /\.css$/i,
-                use: ["css-loader", "style-loader"],
+                use: ["style-loader", "css-loader"],
             },
             {
                 test: /\.(gif|png|jpe?g|svg)$/i,
+                type: 'asset/resource',
                 use: [
-                    "file-loader",
                     {
-                        loader: "image-webpack-loader",
+                        loader: 'image-webpack-loader',
                         options: {
-                            bypassingOnDebug: true,
-                            disable: true,
+                            mozjpeg: { progressive: true, quality: 65 },
+                            optipng: { enabled: false },
+                            pngquant: { quality: [0.65, 0.90], speed: 4 },
+                            gifsicle: { interlaced: false },
+                            webp: { quality: 75 },
                         },
                     },
                 ],

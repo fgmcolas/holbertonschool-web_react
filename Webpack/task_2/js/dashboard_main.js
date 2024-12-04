@@ -6,12 +6,13 @@ $('body').append('<p>Dashboard data for the students</p>');
 $('body').append('<p>Click here to get started</p>');
 $('body').append('<p id="count"></p>');
 $('body').append('<p>Copyright - Holberton School</p>');
+$('body').prepend('<div id="logo"></div>')
 
 let count = 0;
 
 function updateCounter() {
     count++;
-    $('#count').text('{count} clicks on the button');
+    $('#count').text(`${count} clicks on the button`);
 };
 
-$('btn').on('click', _.debounce(updateCounter, 500));
+$('#btn').on('click', _.debounce(updateCounter, 500));
