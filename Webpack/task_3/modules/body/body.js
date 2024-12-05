@@ -14,4 +14,3 @@ function updateCounter() {
 }
 
 $('#btn').on('click', _.debounce(updateCounter, 500));
- 
