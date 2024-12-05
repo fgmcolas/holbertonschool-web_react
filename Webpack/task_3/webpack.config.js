@@ -12,10 +12,19 @@ module.exports = {
         path: path.resolve(__dirname, 'public'),
         filename: '[name].bundle.js',
     },
+    plugins: [
+        new CleanWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            title:'Webpack',
+            inject: 'body',
+        }),
+    ],
     mode: 'development',
     devtool: 'inline-source-map',
     devServer: {
-        contentBase: path.resolve(__dirname, 'public'),
+        static: {
+            directory: path.resolve(__dirname, 'public'),
+        },
         port: 8564,
         open: true,
     },
@@ -31,11 +40,4 @@ module.exports = {
             },
         ],
     },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: './public/index.html',
-            inject: 'body',
-        }),
-        new CleanWebpackPlugin(),
-    ],
 };
