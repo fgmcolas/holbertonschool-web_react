@@ -3,13 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-    plugins: [
-        new CleanWebpackPlugin(),
-        new HtmlWebpackPlugin({
-            title:'Webpack',
-            inject: 'body',
-        }),
-    ],
     entry: {
         header: './modules/header/header.js',
         body: './modules/body/body.js',
@@ -19,6 +12,13 @@ module.exports = {
         path: path.resolve(__dirname, 'public'),
         filename: '[name].bundle.js',
     },
+    plugins: [
+        new CleanWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            title:'Webpack',
+            inject: 'body',
+        }),
+    ],
     mode: 'development',
     devtool: 'inline-source-map',
     devServer: {
