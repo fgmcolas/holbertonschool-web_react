@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import _ from 'lodash';
-import '../css/body.css';
+import './body.css';
 
 let count = 0;
 
