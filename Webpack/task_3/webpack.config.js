@@ -22,13 +22,10 @@ module.exports = {
     mode: 'development',
     devtool: 'inline-source-map',
     devServer: {
-        static: {
-            contentBase: path.resolve(__dirname, 'public'),
-        },
+        contentBase: path.resolve(__dirname, 'public'),
         port: 8564,
         open: true,
     },
-
     module: {
         rules: [
             {
