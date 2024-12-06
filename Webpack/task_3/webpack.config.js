@@ -15,7 +15,7 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            title:'Webpack',
+            title: 'Holberton Dashboard',
             inject: 'body',
         }),
     ],
@@ -28,16 +28,22 @@ module.exports = {
         port: 8564,
         open: true,
     },
+
     module: {
         rules: [
             {
                 test: /\.css$/i,
-                use: ["style-loader", "css-loader"],
+                use: ['style-loader', 'css-loader'],
             },
             {
                 test: /\.(gif|png|jpe?g|svg)$/i,
                 type: 'asset/resource',
             },
         ],
+    },
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+        },
     },
 };
