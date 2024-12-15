@@ -1,7 +1,7 @@
-import holbertonLogo from "./assets/holberton-logo.jpg"
+import holbertonLogo from "./assets/holberton-logo.jpg";
 import { getCurrentYear, getFooterCopy } from "./utils";
 import Notifications from "./Notifications";
-import "./App.css"
+import "./App.css";
 
 function App() {
   return (
@@ -28,4 +28,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
