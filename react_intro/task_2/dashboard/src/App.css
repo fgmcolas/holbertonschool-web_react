@@ -1,3 +1,8 @@
+.root-notifications {
+  border: 2px dashed #e1003c;
+  padding-left: 20px;
+}
+
 .App-header {
   display: flex;
   align-items: center;
@@ -10,6 +15,10 @@
 
 .App-body {
   margin: 20px;
+}
+
+.App-body input{
+  margin: 0px 10px 0px 10px;
 }
 
 .App-footer {
