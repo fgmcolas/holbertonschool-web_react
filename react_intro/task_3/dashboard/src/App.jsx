@@ -23,7 +23,7 @@ function App() {
         <button role="button" type="submit">OK</button>
       </div>
       <div className="App-footer">
-        <p>Copyright {getCurrentYear()} - {getFooterCopy(false)}</p>
+        <p>Copyright {getCurrentYear()} {getFooterCopy(false)}</p>
       </div>
     </>
   )
