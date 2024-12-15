@@ -1,12 +1,12 @@
-import holbertonLogo from "./assets/holberton-logo.jpg"
-import { getCurrentYear, getFooterCopy } from "./utils";
-import Notifications from "./Notifications";
-import "./App.css"
+import holbertonLogo from "./assets/holberton-logo.jpg";
+import { getCurrentYear, getFooterCopy } from './utils.js'
+import Notifications from "./Notifications.jsx";
+import './App.css'
 
 function App() {
   return (
     <>
-      <div className="root-Notifications">
+      <div className="root-notifications">
         <Notifications />
       </div>
       <div className="App-header">
@@ -15,12 +15,17 @@ function App() {
       </div>
       <div className="App-body">
         <p>Login to access the full dashboard</p>
+        <label htmlFor="email">Email</label>
+        <input type="email" name="email" id="email" />
+        <label htmlFor="pass">Password</label>
+        <input type="password" name="pass" id="pass" />
+        <button role="button" type="submit">OK</button>
       </div>
       <div className="App-footer">
-        <p>Copyright {getCurrentYear()} {getFooterCopy(true)}</p>
+        <p>Copyright {getCurrentYear()} - {getFooterCopy(false)}</p>
       </div>
     </>
-  );
+  )
 }
 
 export default App
