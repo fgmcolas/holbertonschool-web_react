@@ -23,9 +23,11 @@ test('Should check that the header image is present', () => {
 })
 
 test("Should render 2 input elements", () => {
-  render(<App />);
-  const inputs = screen.getAllByRole("textbox");
-  expect(inputs.length).toBe(2);
+  render(<App />)
+  const emailInput = screen.getByRole('textbox');
+  const passwordInput = screen.getByLabelText(/Password/i);
+  expect(emailInput).toBeInTheDocument();
+  expect(passwordInput).toBeInTheDocument();
 });
 
 test("Should render 2 label elements with the text 'Email' and 'Password'", () => {
