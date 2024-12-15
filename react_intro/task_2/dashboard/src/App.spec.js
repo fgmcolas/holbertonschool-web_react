@@ -2,13 +2,13 @@ import { render, screen } from "@testing-library/react";
 import { expect, test } from '@jest/globals';
 import App from "./App";
 
-test('Should return a good title text : School dashboard', () => {
+test('Should return the good title', () => {
   render(<App />)
   const header = screen.getByText(/School dashboard/i);
   expect(header).toBeInTheDocument();
 })
 
-test('Should return 2 good text', () => {
+test('Should return 2 correct texts', () => {
   render(<App />)
   const p1 = screen.getByText(/Login to access the full dashboard/i);
   const p2 = screen.getByText(/Copyright 2024 Holberton School/i);
@@ -16,7 +16,7 @@ test('Should return 2 good text', () => {
   expect(p2).toBeInTheDocument();
 })
 
-test('Should check header image is présent', () => {
+test('Should check that the header image is present', () => {
   render(<App />)
   const imgHeader = screen.getByAltText(/holberton logo/i);
   expect(imgHeader).toBeInTheDocument();
@@ -37,7 +37,7 @@ test("Should render 2 label elements with the text 'Email' and 'Password'", () =
 });
 
 test("Should render a button with the text 'OK'", () => {
-  render(<App />);
-  const button = screen.getByText(/ok/i);
+  render(<App />)
+  const button = screen.getByRole('button', { name: /ok/i });
   expect(button).toBeInTheDocument();
 });
