@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import { expect, test, describe, jest } from '@jest/globals';
 import Notifications from './Notifications';
 
 describe('Notifications Component', () => {
@@ -22,11 +23,9 @@ describe('Notifications Component', () => {
 
   test('logs message when close button is clicked', () => {
     console.log = jest.fn();
-
     render(<Notifications />);
     const closeButton = screen.getByRole('button', { name: /close/i });
     fireEvent.click(closeButton);
-
     expect(console.log).toHaveBeenCalledWith('Close button has been clicked');
   });
 });
