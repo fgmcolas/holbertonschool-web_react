@@ -21,3 +21,23 @@ test('Should check header image is présent', () => {
   const imgHeader = screen.getByAltText(/holberton logo/i);
   expect(imgHeader).toBeInTheDocument();
 })
+
+test("Should render 2 input elements", () => {
+  render(<App />);
+  const inputs = screen.getAllByRole("textbox");
+  expect(inputs.length).toBe(2);
+});
+
+test("Should render 2 label elements with the text 'Email' and 'Password'", () => {
+  render(<App />);
+  const labelEmail = screen.getByText(/email/i);
+  const labelPassword = screen.getByText(/password/i);
+  expect(labelEmail).toBeInTheDocument();
+  expect(labelPassword).toBeInTheDocument();
+});
+
+test("Should render a button with the text 'OK'", () => {
+  render(<App />);
+  const button = screen.getByText(/ok/i);
+  expect(button).toBeInTheDocument();
+});
