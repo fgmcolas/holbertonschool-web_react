@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { test, expect, jest } from '@jest/globals';
 import { getLatestNotification } from '../utils/utils'
+import { test, expect, jest } from "@jest/globals";
 import Notifications from './Notifications';
 
 test('Should display a title, button and a 3 list items, whenever the "displayDrawer" set to true', () => {
@@ -44,7 +44,6 @@ test('Should display 3 notification items as expected', () => {
   } else {
     throw new Error('No property found matching the regex');
   }
-
 });
 
 test('Should display the correct notification colors', () => {
@@ -100,3 +99,32 @@ test('Should render the 3 given notifications text, whenever the "displayDrawer"
   expect(screen.getByText('New resume available')).toBeInTheDocument();
   expect(screen.getByText(/complete by EOD/)).toBeInTheDocument();
 })
+
+test('Should not display a title, button and a 3 list items, whenever the "displayDrawer" set to false', () => {
+  const props = {
+    notifications: [
+      { id: 1, type: 'default', value: 'New course available' },
+      { id: 2, type: 'urgent', value: 'New resume available' },
+      { id: 3, type: 'urgent', html: { __html: getLatestNotification() } }
+    ],
+    displayDrawer: false
+  }
+  render(<Notifications {...props} />)
+  const notificationsTitle = screen.queryByText('Here is the list of notifications');
+  const notificationsButton = screen.queryByRole('button');
+  const notificationsListItems = screen.queryAllByRole('listitem');
+  expect(notificationsTitle).toBeNull();
+  expect(notificationsButton).toBeNull();
+  expect(notificationsListItems).toHaveLength(0);
+});
+
+test('Should display a paragraph of "No new notification for now" whenever the listNotification prop is empty', () => {
+  const props = {
+    notifications: [],
+    displayDrawer: true
+  }
+  render(<Notifications {...props} />)
+  screen.debug()
+  const notificationsTitle = screen.getByText('No new notification for now');
+  expect(notificationsTitle).toBeInTheDocument();
+});
