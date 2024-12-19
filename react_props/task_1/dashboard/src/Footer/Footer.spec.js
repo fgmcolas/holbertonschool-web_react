@@ -4,8 +4,8 @@ import Footer from "./Footer";
 import { getCurrentYear, getFooterCopy } from "../utils/utils";
 
 test("Should render footer with correct copyright text", () => {
-    const expectedFooterText = `Copyright ${getCurrentYear()} - ${getFooterCopy(true)}`;
     render(<Footer />);
+    const expectedFooterText = `Copyright ${getCurrentYear()} - ${getFooterCopy(true)}`;
     const footerText = screen.getByText(expectedFooterText);
-    expect(footerText).toBeInTheDocument();
+    expect(footerText).toHaveTextContent(/Copyright 2024 - Holberton School/i);
 });
