@@ -14,7 +14,7 @@ test('testing signin form elements', () => {
     expect(buttonElementText).toBeInTheDocument()
 });
 
-test('it should check that the email input element will be focused whenever the associated label is clicked', async () => {
+test('should check that the email input element will be focused whenever the associated label is clicked', async () => {
     render(<Login />)
     const emailLabel = screen.getByText('Email');
     const emailInput = screen.getByLabelText('Email', { selector: 'input' });
@@ -23,7 +23,7 @@ test('it should check that the email input element will be focused whenever the 
     expect(emailInput).toHaveFocus();
 })
 
-test('it should check that the password input element will be focused whenver the associated label is clicked', async () => {
+test('should check that the password input element will be focused whenver the associated label is clicked', async () => {
     render(<Login />)
     const passwordLabel = screen.getByText('Password');
     const passwordInput = screen.getByLabelText('Password', { selector: 'input' });
