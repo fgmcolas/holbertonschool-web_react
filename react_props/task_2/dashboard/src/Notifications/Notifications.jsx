@@ -1,35 +1,41 @@
-import "./Notifications.css";
-import { getLatestNotification } from "../utils/utils";
-import closeBtn from "../assets/close-button.png";
-import './Notifications.css'
+import './Notifications.css';
+import closeBtn from '../assets/close-button.png';
+import NotificationItem from './NotificationItem';
+import PropTypes from 'prop-types';
 
-function Notifications() {
+export default function Notifications({ notifications }) {
+    console.log(notifications)
     return (
-        <>
-            <div className="notifications">
-                <button
-                    style={{
-                        position: 'absolute',
-                        top: '20px',
-                        right: '20px',
-                        background: 'transparent',
-                        border: 'none',
-                        cursor: 'pointer'
-                    }}
-                    aria-label="Close"
-                    onClick={() => console.log('Close button has been clicked')}
-                >
-                    <img src={closeBtn} alt="close" style={{ width: '15px', height: '15px' }} />
-                </button>
-                <p>Here is the list of notifications</p>
-                <ul>
-                    <li data-priority="default" >New course available</li>
-                    <li data-priority="urgent" >New resume available</li>
-                    <li dangerouslySetInnerHTML={{ __html: getLatestNotification() }}></li>
-                </ul>
-            </div>
-        </>
-    )
+        <div className='Notifications'>
+            <p>Here is the list of notifications</p>
+            <ul>
+                {notifications.map((notification) => (
+                    <NotificationItem
+                        key={notification.id}
+                        type={notification.type}
+                        value={notification.value}
+                        html={notification.html}
+                    />
+                ))}
+            </ul>
+            <button
+                aria-label='Close'
+                type='button'
+                onClick={() => console.log('Close button has been clicked')}
+            >
+                <img alt='close-button' src={closeBtn} />
+            </button>
+        </div>
+    );
 }
 
-export default Notifications
+Notifications.propTypes = {
+    notifications: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            type: PropTypes.string.isRequired,
+            value: PropTypes.string.isRequired,
+            html: PropTypes.object,
+        })
+    ).isRequired,
+};

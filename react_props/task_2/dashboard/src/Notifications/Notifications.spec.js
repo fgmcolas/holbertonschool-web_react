@@ -1,31 +1,35 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { expect, test, describe, jest } from '@jest/globals';
-import Notifications from '../Notifications/Notifications.jsx';
+import { render, screen } from '@testing-library/react';
+import NotificationItem from './NotificationItem';
+import { getLatestNotification } from '../utils/utils';
 
-describe('Notifications Component', () => {
-  test('renders the notifications title', () => {
-    render(<Notifications />);
-    const titleElement = screen.getByText(/Here is the list of notifications/i);
-    expect(titleElement).toBeInTheDocument();
-  });
+test('the NotificationItem is rendered without crashing', () => {
+  render(<NotificationItem />)
+})
 
-  test('renders the close button', () => {
-    render(<Notifications />);
-    const closeButton = screen.getByRole('button', { name: /close/i });
-    expect(closeButton).toBeInTheDocument();
-  });
+test('it should display the correct notification with a red color, and set the "data-notification-type" to urgent whenever it receives the type "urgent" props', () => {
+  const props = {
+    type: 'urgent',
+    html: {__html: getLatestNotification()},
+  }
 
-  test('renders three list items', () => {
-    render(<Notifications />);
-    const listItems = screen.getAllByRole('listitem');
-    expect(listItems).toHaveLength(3);
-  });
+  render(<NotificationItem {...props} />);
 
-  test('logs message when close button is clicked', () => {
-    render(<Notifications />);
-    const consoleLog = jest.spyOn(console, 'log').mockImplementation();
-    const closeButton = screen.getByRole('button', { name: /close/i });
-    fireEvent.click(closeButton);
-    expect(consoleLog).toHaveBeenCalledWith(expect.stringMatching(/Close button has been clicked/i));
-  });
+  const liElement = screen.getByRole('listitem');
+
+  expect(liElement).toHaveStyle({ color: 'red' });
+  expect(liElement).toHaveAttribute('data-notification-type', 'urgent');
+});
+
+test('it should display the correct notification with a blue color, and set the "data-notification-type" to default whenever it receives the type "default" props', () => {
+  const props = {
+    type: 'default',
+    html: undefined,
+  }
+
+  render(<NotificationItem {...props} />);
+
+  const liElement = screen.getByRole('listitem');
+
+  expect(liElement).toHaveStyle({ color: 'blue' });
+  expect(liElement).toHaveAttribute('data-notification-type', 'default');
 });
