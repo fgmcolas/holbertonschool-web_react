@@ -1,4 +1,3 @@
-import React from 'react';
 import { getCurrentYear, getFooterCopy } from '../utils/utils.js'
 import './Footer.css';
 
