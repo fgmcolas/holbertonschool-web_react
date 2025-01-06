@@ -1,7 +1,20 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { beforeEach, afterEach, test, expect, jest } from "@jest/globals";
 import App from './App';
+
+const mockBodySection = jest.fn();
+jest.mock("../BodySection/BodySection", () => {
+  return jest.fn().mockImplementation((props) => {
+    mockBodySection(props);
+    return (
+      <div>
+        <h2>{props.title}</h2>
+        {props.children}
+      </div>
+    );
+  });
+});
 
 beforeEach(() => {
   jest.spyOn(document, 'addEventListener');
@@ -45,7 +58,33 @@ test('Should remove event listener in componentWillUnmount', () => {
   expect(document.removeEventListener).toHaveBeenCalledWith('keydown', expect.any(Function));
 });
 
-test('should add event listener in componentDidMount', () => {
+test('Should add event listener in componentDidMount', () => {
   render(<App isLoggedIn={false} />);
   expect(document.addEventListener).toHaveBeenCalledWith('keydown', expect.any(Function));
+});
+
+test('Should add the title of "course list" above the CourseList component when the isLoggedIn prop set to true', () => {
+  render(<App isLoggedIn={true} />)
+  expect(screen.getByRole('heading', { name: /course list/i })).toBeInTheDocument();
+});
+
+test('Should add the title of "Log in to continue" above the Login component when the isLoggedIn prop set to false', () => {
+  render(<App isLoggedIn={false} />)
+  expect(screen.getByRole('heading', { name: /log in to continue/i })).toBeInTheDocument();
+});
+
+test('Should render BodySection as a child component', () => {
+  render(<App isLoggedIn={false} />);
+  expect(mockBodySection).toHaveBeenCalled();
+});
+
+test('Should render BodySection with news when logged in', () => {
+  render(<App isLoggedIn={true} />);
+  expect(mockBodySection).toHaveBeenCalled();
+});
+
+test('Should render a heading element with a text "", and a paragraph with text ""', () => {
+  render(<App />)
+  expect(screen.getByRole('heading', { name: /news from the school/i })).toBeInTheDocument();
+  expect(screen.getByText(/holberton school news goes here/i)).toBeInTheDocument()
 });

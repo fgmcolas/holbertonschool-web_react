@@ -6,6 +6,8 @@ import Header from '../Header/Header';
 import Login from '../Login/Login';
 import CourseList from '../CourseList/CourseList';
 import { getLatestNotification } from '../utils/utils';
+import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
+import BodySection from '../BodySection/BodySection';
 import PropTypes from 'prop-types';
 
 const notificationsList = [
@@ -24,10 +26,6 @@ class App extends Component {
   constructor(props) {
     super(props);
   }
-
-  handleLogout = () => {
-    console.log('Logging out from parent!');
-  };
 
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeydown);
@@ -48,6 +46,8 @@ class App extends Component {
 
   render() {
     const { isLoggedIn = false } = this.props;
+
+
     return (
       <>
         <Notifications notifications={notificationsList} />
@@ -55,11 +55,20 @@ class App extends Component {
           <Header />
           {
             !isLoggedIn ? (
-              <Login />
+              <BodySectionWithMarginBottom title='Log in to continue'>
+                <Login />
+              </BodySectionWithMarginBottom>
             ) : (
-              <CourseList courses={coursesList} />
+              <BodySectionWithMarginBottom title='Course list'>
+                <CourseList courses={coursesList} />
+              </BodySectionWithMarginBottom>
             )
           }
+          <BodySection title="News from the School">
+            <p>
+              Holberton School news goes here
+            </p>
+          </BodySection>
         </>
         <Footer />
       </>
