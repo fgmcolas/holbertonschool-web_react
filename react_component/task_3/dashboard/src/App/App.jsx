@@ -53,12 +53,12 @@ class App extends Component {
           <Header />
           {
             !isLoggedIn ? (
-              <BodySectionWithMarginBottom title='Course list'>
-                <CourseList courses={coursesList} />
-              </BodySectionWithMarginBottom>
-            ) : (
               <BodySectionWithMarginBottom title='Log in to continue'>
                 <Login />
+              </BodySectionWithMarginBottom>
+            ) : (
+              <BodySectionWithMarginBottom title='Course list'>
+                <CourseList courses={coursesList} />
               </BodySectionWithMarginBottom>
             )}
           <BodySection title="News from the School">
