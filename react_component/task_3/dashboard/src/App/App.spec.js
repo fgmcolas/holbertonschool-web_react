@@ -63,14 +63,14 @@ test('Should add event listener in componentDidMount', () => {
   expect(document.addEventListener).toHaveBeenCalledWith('keydown', expect.any(Function));
 });
 
-test('Should add the title of "course list" above the CourseList component when the isLoggedIn prop set to true', () => {
+test('Should add the title of "Course list" above the CourseList component when the isLoggedIn prop set to true', () => {
   render(<App isLoggedIn={true} />)
-  expect(screen.getByRole('heading', { name: /course list/i })).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: /Course list/i })).toBeInTheDocument();
 });
 
 test('Should add the title of "Log in to continue" above the Login component when the isLoggedIn prop set to false', () => {
   render(<App isLoggedIn={false} />)
-  expect(screen.getByRole('heading', { name: /log in to continue/i })).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: /Log in to continue/i })).toBeInTheDocument();
 });
 
 test('Should render BodySection as a child component', () => {
