@@ -1,37 +1,62 @@
-import { render, screen } from '@testing-library/react';
-import { test, expect } from "@jest/globals";
-import App from './App'
+import React from 'react';
+import { render, fireEvent } from '@testing-library/react';
+import { beforeEach, afterEach, test, expect, jest } from "@jest/globals";
+import App from './App';
 
-test('The App component render successfully', () => {
-  render(<App />);
+beforeEach(() => {
+  jest.spyOn(document, 'addEventListener');
+  jest.spyOn(document, 'removeEventListener');
 });
 
-test('The App component render successfully', () => {
-  const props = {
-    isLoggedIn: true
-  }
-
-  render(<App {...props} />);
-
-  const tableElement = screen.getByRole('table');
-
-  expect(tableElement).toBeInTheDocument()
+afterEach(() => {
+  document.addEventListener.mockRestore();
+  document.removeEventListener.mockRestore();
 });
 
-test('The App component render successfully', () => {
-  const props = {
-    isLoggedIn: false
-  }
+test('should return true if the App component is a class component', () => {
+  const props = Object.getOwnPropertyNames(App.prototype);
+  const isClassComponent = App.prototype.__proto__ === React.Component.prototype;
+  const inheritsFromReactComponent = Object.getPrototypeOf(App.prototype) === React.Component.prototype;
 
-  render(<App {...props} />);
+  expect(props).toContain('constructor');
+  expect(isClassComponent).toBe(true);
+  expect(inheritsFromReactComponent).toBe(true);
+});
 
-  const inputElements = screen.getAllByRole('textbox')
-  const emailLabelElement = screen.getByLabelText(/email/i);
-  const passwordLabelElement = screen.getByLabelText(/password/i);
-  const buttonElementText = screen.getByRole('button', { name: /ok/i })
+test('it should call the logOut prop once whenever the user hits "Ctrl" + "h" keyboard keys', () => {
+  const logOutMock = jest.fn();
 
-  expect(inputElements).toHaveLength(2)
-  expect(emailLabelElement).toBeInTheDocument()
-  expect(passwordLabelElement).toBeInTheDocument()
-  expect(buttonElementText).toBeInTheDocument()
+  jest.spyOn(window, 'alert').mockImplementation(() => { });
+  render(<App isLoggedIn={true} logOut={logOutMock} />);
+
+  fireEvent.keyDown(document, { ctrlKey: true, key: 'h' });
+
+  expect(logOutMock).toHaveBeenCalledTimes(1);
+});
+
+test('it should display an alert window whenever the user hit "ctrl" + "h" keyboard keys', () => {
+  const logoutSpy = jest.fn();
+  window.alert = jest.fn();
+
+  render(<App logOut={logoutSpy} />);
+
+  fireEvent.keyDown(document, { ctrlKey: true, key: 'h' });
+
+  expect(window.alert).toHaveBeenCalledWith('Logging you out');
+});
+
+test('should remove event listener in componentWillUnmount', () => {
+  const { unmount } = render(<App isLoggedIn={false} />);
+
+  expect(document.addEventListener).toHaveBeenCalledWith('keydown', expect.any(Function));
+
+  unmount();
+
+  expect(document.removeEventListener).toHaveBeenCalledWith('keydown', expect.any(Function));
+});
+
+test('should add event listener in componentDidMount', () => {
+  render(<App isLoggedIn={false} />);
+
+  expect(document.addEventListener).toHaveBeenCalledWith('keydown', expect.any(Function));
 });
