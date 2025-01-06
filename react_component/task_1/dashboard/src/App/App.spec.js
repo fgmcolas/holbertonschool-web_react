@@ -13,7 +13,7 @@ afterEach(() => {
   document.removeEventListener.mockRestore();
 });
 
-test('should return true if the App component is a class component', () => {
+test('Should return true if the App component is a class component', () => {
   const props = Object.getOwnPropertyNames(App.prototype);
   const isClassComponent = App.prototype.__proto__ === React.Component.prototype;
   const inheritsFromReactComponent = Object.getPrototypeOf(App.prototype) === React.Component.prototype;
@@ -23,7 +23,7 @@ test('should return true if the App component is a class component', () => {
   expect(inheritsFromReactComponent).toBe(true);
 });
 
-test('it should call the logOut prop once whenever the user hits "Ctrl" + "h" keyboard keys', () => {
+test('Should call the logOut prop once whenever the user hits "Ctrl" + "h" keyboard keys', () => {
   const logOutMock = jest.fn();
 
   jest.spyOn(window, 'alert').mockImplementation(() => { });
@@ -34,7 +34,7 @@ test('it should call the logOut prop once whenever the user hits "Ctrl" + "h" ke
   expect(logOutMock).toHaveBeenCalledTimes(1);
 });
 
-test('it should display an alert window whenever the user hit "ctrl" + "h" keyboard keys', () => {
+test('Should display an alert window whenever the user hit "ctrl" + "h" keyboard keys', () => {
   const logoutSpy = jest.fn();
   window.alert = jest.fn();
 
@@ -45,7 +45,7 @@ test('it should display an alert window whenever the user hit "ctrl" + "h" keybo
   expect(window.alert).toHaveBeenCalledWith('Logging you out');
 });
 
-test('should remove event listener in componentWillUnmount', () => {
+test('Should remove event listener in componentWillUnmount', () => {
   const { unmount } = render(<App isLoggedIn={false} />);
 
   expect(document.addEventListener).toHaveBeenCalledWith('keydown', expect.any(Function));
