@@ -13,7 +13,6 @@ test('The App component render successfully', () => {
 
   render(<App {...props} />);
   const tableElement = screen.getByRole('table');
-
   expect(tableElement).toBeInTheDocument()
 });
 
