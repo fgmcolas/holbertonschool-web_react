@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { getLatestNotification } from '../utils/utils'
-import { test, expect, jest } from "@jest/globals";
 import Notifications from './Notifications';
+import { test, expect, jest } from '@jest/globals';
 
 test('Should display a title, button and a 3 list items, whenever the "displayDrawer" set to true', () => {
   const props = {
@@ -21,7 +21,7 @@ test('Should display a title, button and a 3 list items, whenever the "displayDr
   expect(notificationsListItems).toHaveLength(3);
 });
 
-test('Should display 3 notification items as expected', () => {
+test('it should display 3 notification items as expected', () => {
   const props = {
     notifications: [
       { id: 1, type: 'default', value: 'New course available' },
@@ -66,7 +66,6 @@ test('Should display the correct notification colors', () => {
   }
   expect(colorStyleArr).toEqual(['blue', 'red', 'red']);
 });
-
 
 test('Should log "Close button has been clicked" whenever the close button is clicked and, the "displayDrawer" set to true', () => {
   const props = {
@@ -127,4 +126,28 @@ test('Should display a paragraph of "No new notification for now" whenever the l
   screen.debug()
   const notificationsTitle = screen.getByText('No new notification for now');
   expect(notificationsTitle).toBeInTheDocument();
+});
+
+test('Should rerender when prop values change', () => {
+  const consoleSpy = jest.spyOn(console, 'log');
+  const initialProps = {
+    displayDrawer: false,
+    notifications: [],
+  };
+
+  render(<Notifications {...initialProps} />);
+  expect(screen.queryByText('Here is the list of notifications')).toBeNull();
+  const updatedProps = {
+    displayDrawer: true,
+    notifications: [
+      { id: 1, type: 'default', value: 'New notification' }
+    ],
+  };
+
+  render(<Notifications {...updatedProps} />);
+  const firstListItemElement = screen.getAllByRole('listitem')[0];
+  fireEvent.click(firstListItemElement)
+  expect(consoleSpy).toHaveBeenCalledWith('Notification 1 has been marked as read')
+  expect(screen.getByText('Here is the list of notifications')).toBeInTheDocument();
+  expect(screen.getByRole('listitem')).toBeInTheDocument()
 });
