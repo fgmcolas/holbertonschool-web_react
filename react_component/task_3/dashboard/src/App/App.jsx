@@ -66,7 +66,7 @@ class App extends Component {
           }
           <BodySection title="News from the School">
             <p>
-              Holberton School News goes here
+              Holberton School goes here
             </p>
           </BodySection>
         </>
