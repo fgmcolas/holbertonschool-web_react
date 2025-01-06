@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import './Notifications.css';
-import closeIcon from '../assets/close-icon.png';
+import closeIcon from '../assets/close-button.png';
 import NotificationItem from './NotificationItem';
 import PropTypes from 'prop-types';
 
