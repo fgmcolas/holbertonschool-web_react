@@ -46,8 +46,6 @@ class App extends Component {
 
   render() {
     const { isLoggedIn = false } = this.props;
-
-
     return (
       <>
         <Notifications notifications={notificationsList} />
