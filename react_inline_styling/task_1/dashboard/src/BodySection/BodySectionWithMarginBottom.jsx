@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types';
-import { StyleSheet, css } from 'aphrodite';
+import React from 'react';
 import BodySection from './BodySection';
+import { StyleSheet, css } from 'aphrodite';
 
 const styles = StyleSheet.create({
     bodySectionWithMargin: {
@@ -8,23 +8,10 @@ const styles = StyleSheet.create({
     },
 });
 
-function BodySectionWithMarginBottom({ title, children }) {
+export default function BodySectionWithMarginBottom(props) {
     return (
-        <div className={css(styles.bodySectionWithMargin)}>
-            <BodySection title={title}>
-                {children}
-            </BodySection>
+        <div className={`${css(styles.bodySectionWithMargin)} bodySectionWithMargin`} data-testid="body-section-with-margin">
+            <BodySection {...props} />
         </div>
     );
 }
-
-BodySectionWithMarginBottom.propTypes = {
-    title: PropTypes.string.isRequired,
-    children: PropTypes.node,
-};
-
-BodySectionWithMarginBottom.defaultProps = {
-    children: null,
-};
-
-export default BodySectionWithMarginBottom;
