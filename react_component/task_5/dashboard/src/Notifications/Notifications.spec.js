@@ -1,7 +1,7 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { getLatestNotification } from '../utils/utils'
 import Notifications from './Notifications';
-import { test, expect, jest } from '@jest/globals';
 
 test('Should display a title, button and a 3 list items, whenever the "displayDrawer" set to true', () => {
   const props = {
@@ -21,7 +21,7 @@ test('Should display a title, button and a 3 list items, whenever the "displayDr
   expect(notificationsListItems).toHaveLength(3);
 });
 
-test('it should display 3 notification items as expected', () => {
+test('Should display 3 notification items as expected', () => {
   const props = {
     notifications: [
       { id: 1, type: 'default', value: 'New course available' },
@@ -44,6 +44,7 @@ test('it should display 3 notification items as expected', () => {
   } else {
     throw new Error('No property found matching the regex');
   }
+
 });
 
 test('Should display the correct notification colors', () => {
@@ -66,6 +67,7 @@ test('Should display the correct notification colors', () => {
   }
   expect(colorStyleArr).toEqual(['blue', 'red', 'red']);
 });
+
 
 test('Should log "Close button has been clicked" whenever the close button is clicked and, the "displayDrawer" set to true', () => {
   const props = {
@@ -128,7 +130,7 @@ test('Should display a paragraph of "No new notification for now" whenever the l
   expect(notificationsTitle).toBeInTheDocument();
 });
 
-test('Should rerender when prop values change', () => {
+test('It should rerender when prop values change', () => {
   const consoleSpy = jest.spyOn(console, 'log');
   const initialProps = {
     displayDrawer: false,
@@ -151,3 +153,42 @@ test('Should rerender when prop values change', () => {
   expect(screen.getByText('Here is the list of notifications')).toBeInTheDocument();
   expect(screen.getByRole('listitem')).toBeInTheDocument()
 });
+
+test('Should rerender when the notifications length changes', () => {
+  const initialNotifications = [
+    { id: 1, type: 'default', value: 'Notification 1' },
+  ];
+
+  const newNotifications = [
+    { id: 1, type: 'default', value: 'Notification 1' },
+    { id: 2, type: 'urgent', value: 'Notification 2' },
+  ];
+  const renderSpy = jest.spyOn(Notifications.prototype, 'render');
+  const { rerender } = render(<Notifications notifications={initialNotifications} displayDrawer={true} />);
+  expect(renderSpy).toHaveBeenCalledTimes(1);
+  rerender(<Notifications notifications={newNotifications} displayDrawer={true} />);
+  expect(renderSpy).toHaveBeenCalledTimes(2);
+  renderSpy.mockRestore();
+});
+
+test('Should not rerender if the notifications length is unchanged', () => {
+  const initialNotifications = [
+    { id: 1, type: 'default', value: 'Notification 1' },
+    { id: 2, type: 'urgent', value: 'Notification 2' },
+  ];
+  const renderSpy = jest.spyOn(Notifications.prototype, 'render');
+  const { rerender } = render(<Notifications notifications={initialNotifications} displayDrawer={true} />);
+  expect(renderSpy).toHaveBeenCalledTimes(1);
+  rerender(<Notifications notifications={initialNotifications} displayDrawer={true} />);
+  expect(renderSpy).toHaveBeenCalledTimes(1);
+  renderSpy.mockRestore();
+});
+
+test('Should return true if the Notifications component is a class component', () => {
+  const props = Object.getOwnPropertyNames(Notifications.prototype);
+  const isClassComponent = Notifications.prototype.__proto__ === React.Component.prototype;
+  const inheritsFromReactComponent = Object.getPrototypeOf(Notifications.prototype) === React.Component.prototype;
+  expect(props).toContain('constructor');
+  expect(isClassComponent).toBe(true);
+  expect(inheritsFromReactComponent).toBe(true);
+})

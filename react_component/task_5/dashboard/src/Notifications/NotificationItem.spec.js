@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, afterEach } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import NotificationItem from './NotificationItem';
 import { getLatestNotification } from '../utils/utils';
 import { test, expect, jest } from '@jest/globals';
