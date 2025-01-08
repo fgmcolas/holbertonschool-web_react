@@ -62,7 +62,7 @@ class App extends Component {
               </BodySectionWithMarginBottom>
             )}
           <BodySection title="News from the School">
-            <p>Holberton School news goes here</p>
+            <p>Holberton School News goes here</p>
           </BodySection>
         </>
         <Footer />
