@@ -1,7 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { expect, test } from "@jest/globals";
 import Header from "./Header";
+import { StyleSheetTestUtils } from 'aphrodite';
 
+StyleSheetTestUtils.suppressStyleInjection();
 test("Should display the Holberton logo", () => {
     render(<Header />);
     const imgHeader = screen.getByAltText(/holberton logo/i);

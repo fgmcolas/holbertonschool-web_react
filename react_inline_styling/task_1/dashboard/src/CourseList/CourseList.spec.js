@@ -1,6 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { test, expect } from "@jest/globals";
 import CourseList from './CourseList';
+import { StyleSheetTestUtils } from 'aphrodite';
+
+StyleSheetTestUtils.suppressStyleInjection();
 
 test('Should render the CourseList component without crashing', () => {
     const props = {

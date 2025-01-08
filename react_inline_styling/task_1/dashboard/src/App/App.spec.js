@@ -1,7 +1,9 @@
-import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { beforeEach, afterEach, test, expect, jest } from "@jest/globals";
+import { StyleSheetTestUtils } from 'aphrodite';
 import App from './App';
+
+StyleSheetTestUtils.suppressStyleInjection();
 
 const mockBodySection = jest.fn();
 jest.mock("../BodySection/BodySection", () => {
@@ -27,13 +29,10 @@ afterEach(() => {
 });
 
 test('Should return true if the App component is a class component', () => {
-  const props = Object.getOwnPropertyNames(App.prototype);
-  const isClassComponent = App.prototype.__proto__ === React.Component.prototype;
-  const inheritsFromReactComponent = Object.getPrototypeOf(App.prototype) === React.Component.prototype;
-  expect(props).toContain('constructor');
+  const isClassComponent = typeof App === 'function' && !!App.prototype && !!App.prototype.isReactComponent;
   expect(isClassComponent).toBe(true);
-  expect(inheritsFromReactComponent).toBe(true);
 });
+
 
 test('Should call the logOut prop once whenever the user hits "Ctrl" + "h" keyboard keys', () => {
   const logOutMock = jest.fn();

@@ -1,6 +1,9 @@
 import { render } from '@testing-library/react';
 import BodySectionWithMarginBottom from './BodySectionWithMarginBottom';
 import './BodySectionWithMarginBottom.css';
+import { StyleSheetTestUtils } from 'aphrodite';
+
+StyleSheetTestUtils.suppressStyleInjection();
 
 const mockBodySection = jest.fn();
 jest.mock('./BodySection', () => {
@@ -53,4 +56,6 @@ test('Should apply margin-bottom of 40px to the div with class bodySectionWithMa
     const divWithMargin = container.querySelector('.bodySectionWithMargin');
     expect(divWithMargin).toBeInTheDocument();
     expect(divWithMargin).toHaveClass('bodySectionWithMargin');
+    const divStyle = getComputedStyle(divWithMargin);
+    expect(divStyle.marginBottom).toBe('40px');
 });
