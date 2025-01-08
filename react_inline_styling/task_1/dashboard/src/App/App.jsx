@@ -80,4 +80,23 @@ App.defaultProps = {
   logOut: () => {},
 };
 
+const styles = StyleSheet.create({
+  app: {
+    fontFamily: 'Arial, sans-serif',
+  },
+  body: {
+    margin: '0 auto',
+    padding: '20px',
+    maxWidth: '900px',
+  },
+  footer: {
+    textAlign: 'center',
+    padding: '10px 0',
+    borderTop: '1px solid #ccc',
+    position: 'relative',
+    bottom: 0,
+    width: '100%',
+  },
+});
+
 export default App;
