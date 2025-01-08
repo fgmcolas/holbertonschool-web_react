@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { PureComponent } from 'react';
 
-class NotificationItem extends Component {
-
+class NotificationItem extends PureComponent {
     render() {
         const { type, html, value, markAsRead, id } = this.props;
         if (type === 'default') {
@@ -11,7 +10,9 @@ class NotificationItem extends Component {
                     style={{ color: "blue" }}
                     data-notification-type={type}
                     onClick={() => markAsRead(id)}
-                >{value}</li>
+                >
+                    {value}
+                </li>
             );
         } else if (type === 'urgent' && html !== undefined) {
             return (
@@ -28,7 +29,9 @@ class NotificationItem extends Component {
                     style={{ color: "red" }}
                     data-notification-type={type}
                     onClick={() => markAsRead(id)}
-                >{value}</li>
+                >
+                    {value}
+                </li>
             );
         }
     }

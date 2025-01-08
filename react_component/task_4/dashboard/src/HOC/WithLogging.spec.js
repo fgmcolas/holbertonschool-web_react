@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
+import { afterEach } from '@jest/globals';
 import WithLogging from './WithLogging';
 
 afterEach(cleanup);
