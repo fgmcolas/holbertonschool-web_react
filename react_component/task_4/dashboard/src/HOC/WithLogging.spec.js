@@ -26,6 +26,5 @@ test('Logs component name on mount and unmount', () => {
     expect(consoleSpy).toHaveBeenCalledWith('Component MockApp is mounted');
     unmount();
     expect(consoleSpy).toHaveBeenCalledWith('Component MockApp is going to unmount');
-
     consoleSpy.mockRestore();
 });
