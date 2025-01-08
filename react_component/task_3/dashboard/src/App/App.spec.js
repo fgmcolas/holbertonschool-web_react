@@ -86,5 +86,5 @@ test('Should render BodySection with news when logged in', () => {
 test('Should render a heading element with a text "", and a paragraph with text ""', () => {
   render(<App />)
   expect(screen.getByRole('heading', { name: /News from the school/i })).toBeInTheDocument();
-  expect(screen.getByText(/Holberton School News goes here/i)).toBeInTheDocument()
+  expect(screen.getByText(/Holberton School goes here/i)).toBeInTheDocument()
 });
