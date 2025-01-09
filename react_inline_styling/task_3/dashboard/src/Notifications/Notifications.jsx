@@ -5,8 +5,19 @@ import { StyleSheet, css } from 'aphrodite';
 import PropTypes from 'prop-types';
 
 class Notifications extends Component {
-    shouldComponentUpdate(nextProps) {
-        return nextProps.notifications.length !== this.props.notifications.length;
+    state = {
+        displayDrawer: true,
+    };
+
+    closeNotifications = () => {
+        this.setState({ displayDrawer: false });
+    };
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return (
+            nextProps.notifications.length !== this.props.notifications.length ||
+            nextState.displayDrawer !== this.state.displayDrawer
+        );
     }
 
     markAsRead = (id) => {
@@ -14,40 +25,45 @@ class Notifications extends Component {
     };
 
     render() {
-        const { notifications = [], displayDrawer = true } = this.props;
-
+        const { notifications = [] } = this.props;
+        const { displayDrawer } = this.state;
         return (
             <>
                 <div className={css(styles.menuItem)}>Your notifications</div>
-                {displayDrawer ? (
-                    <div className={css(styles.notifications)}>
-                        {notifications.length > 0 ? (
-                            <>
-                                <p>Here is the list of notifications</p>
-                                <button
-                                    onClick={() => console.log('Close button has been clicked')}
-                                    aria-label="Close"
-                                    className={css(styles.closeButton)}
-                                >
-                                    <img src={closeIcon} alt="close icon" />
-                                </button>
-                                <ul>
-                                    {notifications.map((notification) => (
-                                        <NotificationItem
-                                            key={notification.id}
-                                            type={notification.type}
-                                            value={notification.value}
-                                            html={notification.html}
-                                            markAsRead={() => this.markAsRead(notification.id)}
-                                        />
-                                    ))}
-                                </ul>
-                            </>
-                        ) : (
-                            <p>No new notification for now</p>
-                        )}
-                    </div>
-                ) : null}
+                <div
+                    className={css(styles.notifications)}
+                    style={{ visibility: displayDrawer ? 'visible' : 'hidden' }}
+                >
+                    {notifications.length > 0 ? (
+                        <>
+                            <p className={css(styles.text)}>Here is the list of notifications</p>
+                            <button
+                                onClick={this.closeNotifications}
+                                aria-label="Close"
+                                className={css(styles.closeButton)}
+                            >
+                                <img
+                                    src={closeIcon}
+                                    alt="close icon"
+                                    className={css(styles.closeIcon)}
+                                />
+                            </button>
+                            <ul className={css(styles.noPadding)}>
+                                {notifications.map((notification) => (
+                                    <NotificationItem
+                                        key={notification.id}
+                                        type={notification.type}
+                                        value={notification.value}
+                                        html={notification.html}
+                                        markAsRead={() => this.markAsRead(notification.id)}
+                                    />
+                                ))}
+                            </ul>
+                        </>
+                    ) : (
+                        <p className={css(styles.text)}>No new notification for now</p>
+                    )}
+                </div>
             </>
         );
     }
@@ -58,27 +74,36 @@ const styles = StyleSheet.create({
         textAlign: 'right',
     },
     notifications: {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'white',
         border: 'dotted crimson',
-        marginTop: '1%',
-        paddingLeft: '1rem',
-        marginBottom: '1rem',
-        width: '40%',
-        marginLeft: '59%',
-        position: 'relative',
+        padding: 0,
+        fontSize: '20px',
+        zIndex: 1000,
     },
     closeButton: {
         position: 'absolute',
         cursor: 'pointer',
         right: '5px',
-        top: '20px',
+        top: '5px',
         background: 'transparent',
         border: 'none',
     },
-    notificationTitle: {
-        float: 'right',
-        position: 'absolute',
-        right: '10px',
-        top: '2px',
+    closeIcon: {
+        width: '20px',
+        height: '20px',
+        objectFit: 'contain',
+    },
+    text: {
+        fontSize: '20px',
+        marginBottom: '20px',
+    },
+    noPadding: {
+        padding: 0,
     },
 });
 
@@ -91,7 +116,6 @@ Notifications.propTypes = {
             html: PropTypes.shape({ __html: PropTypes.string }),
         })
     ).isRequired,
-    displayDrawer: PropTypes.bool.isRequired,
 };
 
 export default Notifications;

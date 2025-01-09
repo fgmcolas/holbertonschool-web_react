@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
         borderBottom: '2px solid #e1003c',
     },
     logo: {
-        width: '50px',
+        width: '150px',
         height: 'auto',
         marginRight: '10px',
     },

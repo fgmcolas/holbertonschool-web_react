@@ -1,7 +1,9 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { test, expect } from '@jest/globals';
 import Login from './Login';
+import { StyleSheetTestUtils } from 'aphrodite';
 
+StyleSheetTestUtils.suppressStyleInjection();
 
 test('testing signin form elements', () => {
     render(<Login />);
