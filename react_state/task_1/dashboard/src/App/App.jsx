@@ -1,7 +1,7 @@
 import React from 'react';
 import Notification from '../Notifications/Notifications';
 import Header from '../Header/Header';
-import Login from "../Login/Login"
+import Login from "../Login/Login";
 import Footer from '../Footer/Footer';
 import CourseList from '../CourseList/CourseList';
 import { getLatestNotification } from '../utils/utils';
@@ -23,13 +23,11 @@ const coursesList = [
 ];
 
 class App extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
             displayDrawer: true,
-            user: { ...newContext.user },
-            logout: newContext.logOut,
+            user: { email: '', password: '', isLoggedIn: false }, // User object with initial values
         };
     }
 
@@ -44,7 +42,7 @@ class App extends React.Component {
     handleKeydown = (e) => {
         if (e.ctrlKey && e.key === "h") {
             alert("Logging you out");
-            this.props.logOut();
+            this.logOut();
         }
     };
 
@@ -77,10 +75,9 @@ class App extends React.Component {
     };
 
     render() {
-        const { displayDrawer, user, logout } = this.state;
-
+        const { displayDrawer, user } = this.state;
         return (
-            <newContext.Provider value={{ user, logout }}>
+            <newContext.Provider value={{ user, logOut: this.logOut }}>
                 <Notification
                     notifications={notificationsList}
                     displayDrawer={displayDrawer}
@@ -95,9 +92,11 @@ class App extends React.Component {
                         </BodySectionWithMarginBottom>
                     ) : (
                         <BodySectionWithMarginBottom title="Log in to continue">
-                            <Login login={this.logIn}
+                            <Login
+                                logIn={this.logIn}
                                 email={user.email}
-                                password={user.password} />
+                                password={user.password}
+                            />
                         </BodySectionWithMarginBottom>
                     )}
                     <BodySection>

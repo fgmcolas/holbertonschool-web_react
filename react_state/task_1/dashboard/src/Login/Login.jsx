@@ -26,7 +26,6 @@ class Login extends React.Component {
     handleChangeEmail = (e) => {
         const email = e.target.value;
         const { password } = this.state;
-
         this.setState({
             email: email,
             enableSubmit: this.validateEmail(email) && password.length >= 8,
@@ -36,7 +35,6 @@ class Login extends React.Component {
     handleChangePassword = (e) => {
         const password = e.target.value;
         const { email } = this.state;
-
         this.setState({
             password: password,
             enableSubmit: this.validateEmail(email) && password.length >= 8,
@@ -45,7 +43,6 @@ class Login extends React.Component {
 
     render() {
         const { enableSubmit, email, password } = this.state;
-
         return (
             <form aria-label="form" onSubmit={this.handleLoginSubmit}>
                 <div className="App-body">
