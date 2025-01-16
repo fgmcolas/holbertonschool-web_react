@@ -1,75 +1,80 @@
-import React, { Component } from 'react';
+import React from 'react';
 import WithLogging from '../HOC/WithLogging';
 import './Login.css';
 
-class Login extends Component {
+class Login extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
-            isLoggedIn: false,
-            email: '',
-            password: '',
+            email: props.email || '',
+            password: props.password || '',
             enableSubmit: false,
         };
     }
 
     handleLoginSubmit = (e) => {
         e.preventDefault();
-        this.setState({ isLoggedIn: true });
+        const { email, password } = this.state;
+        this.props.login(email, password)
+    }
+
+    validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
     };
 
     handleChangeEmail = (e) => {
         const email = e.target.value;
-        this.setState({ email }, this.validateForm);
+        const { password } = this.state;
+        this.setState({
+            email: email,
+            enableSubmit: this.validateEmail(email) && password.length >= 8,
+        });
     };
 
     handleChangePassword = (e) => {
         const password = e.target.value;
-        this.setState({ password }, this.validateForm);
-    };
-
-    validateForm = () => {
-        const { email, password } = this.state;
-        const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        const isPasswordValid = password.length >= 8;
-        this.setState({ enableSubmit: isValidEmail && isPasswordValid });
+        const { email } = this.state;
+        this.setState({
+            password: password,
+            enableSubmit: this.validateEmail(email) && password.length >= 8,
+        });
     };
 
     render() {
-        const { email, password, enableSubmit } = this.state;
-
+        const { enableSubmit, email, password } = this.state;
         return (
-            <div className="App-body">
-                <p>Login to access the full dashboard</p>
-                <form onSubmit={this.handleLoginSubmit}>
-                    <label htmlFor="email" className="email">
-                        Email
+            <form aria-label="form" onSubmit={this.handleLoginSubmit}>
+                <div className="App-body">
+                    <p>Login to access the full dashboard</p>
+                    <div className="form">
+                        <label htmlFor="email">Email</label>
                         <input
-                            id="email"
                             type="email"
+                            name="user_email"
+                            id="email"
                             value={email}
                             onChange={this.handleChangeEmail}
                         />
-                    </label>
-                    <label htmlFor="password" className="password">
-                        Password
+                        <label htmlFor="password">Password</label>
                         <input
+                            type="text"
+                            name="user_password"
                             id="password"
-                            type="password"
                             value={password}
                             onChange={this.handleChangePassword}
                         />
-                    </label>
-                    <input
-                        className="label-button"
-                        type="submit"
-                        value="OK"
-                        disabled={!enableSubmit}
-                    />
-                </form>
-            </div>
-        );
+                        <input
+                            value="OK"
+                            type="submit"
+                            disabled={!enableSubmit}
+                        />
+                    </div>
+                </div>
+            </form>
+        )
     }
 }
 
-export default WithLogging(Login);
+const LoginWithLogging = WithLogging(Login)
+export default LoginWithLogging;
