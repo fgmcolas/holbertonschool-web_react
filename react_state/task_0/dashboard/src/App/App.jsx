@@ -25,6 +25,9 @@ const coursesList = [
 class App extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      displayDrawer: false,
+    };
   }
 
   componentDidMount() {
@@ -44,11 +47,26 @@ class App extends Component {
     }
   };
 
+  handleDisplayDrawer = () => {
+    this.setState({ displayDrawer: true });
+  };
+
+  handleHideDrawer = () => {
+    this.setState({ displayDrawer: false });
+  };
+
   render() {
     const { isLoggedIn = false } = this.props;
+    const { displayDrawer } = this.state;
+
     return (
       <div className={css(styles.app)}>
-        <Notifications notifications={notificationsList} />
+        <Notifications
+          notifications={notificationsList}
+          displayDrawer={displayDrawer}
+          handleDisplayDrawer={this.handleDisplayDrawer}
+          handleHideDrawer={this.handleHideDrawer}
+        />
         <div className={css(styles.body)}>
           <Header />
           {!isLoggedIn ? (
