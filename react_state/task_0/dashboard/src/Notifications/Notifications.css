@@ -1,41 +1,37 @@
+.menuItem {
+  text-align: right;
+}
+
 .Notifications {
-    position: relative;
-    border: 3px dotted #e1003c;
-    padding: 5px;
-    font-family: 'Roboto', sans-serif;
-    width: 25%;
-    float: right;
-    margin-top: 20px;
-}
-
-li[data-priority="default"] {
-    color: blue;
-}
-
-li[data-priority="urgent"] {
-    color: rgb(233, 67, 67);
-}
-
-.Notifications p {
-    margin: 0;
+  border: dotted;
+  border-color: crimson;
+  margin-top: 1%;
+  padding-left: 1rem;
+  margin-bottom: 1rem;
+  width: 40%;
+  margin-left: 59%;
 }
 
 .Notifications button {
-    position: absolute;
-    cursor: pointer;
-    right: calc(0% - 480px);
-    top: calc(0% - 480px);
-    background: transparent;
-    transform: scale(0.012);
-    -webkit-transform: scale(0.012);
-    -moz-transform: scale(0.012);
-    -ms-transform: scale(0.012);
-    -o-transform: scale(0.012);
+  position: absolute;
+  cursor: pointer;
+  right: 5px;
+  top: 20px;
+  background: transparent;
+  border: none, ;
+}
+
+[data-notification-type="default"] {
+  color: blue;
+}
+
+[data-notification-type="urgent"] {
+  color: red;
 }
 
 .notification-title {
-    float: right;
-    position: absolute;
-    right: 10px;
-    top: 2px;
+  float: right;
+  position: absolute;
+  right: 10px;
+  top: 2px;
 }

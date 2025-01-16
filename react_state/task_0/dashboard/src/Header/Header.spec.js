@@ -1,18 +1,15 @@
-import { render, screen } from "@testing-library/react";
-import { expect, test } from "@jest/globals";
+import React from "react";
+import { render, screen } from "@testing-library/react"
 import Header from "./Header";
-import { StyleSheetTestUtils } from 'aphrodite';
 
-StyleSheetTestUtils.suppressStyleInjection();
-
-test("Should display the Holberton logo", () => {
+test('Renders School Dashboard heading', () => {
     render(<Header />);
-    const imgHeader = screen.getByAltText(/holberton logo/i);
-    expect(imgHeader).toBeInTheDocument();
+    const headingElement = screen.getByRole('heading', { name: /School dashboard/i });
+    expect(headingElement).toBeInTheDocument();
 });
 
-test("Should display the heading with the correct text", () => {
+test('Renders App img', () => {
     render(<Header />);
-    const heading = screen.getByRole("heading", { level: 1, name: /School dashboard/i });
-    expect(heading).toBeInTheDocument();
+    const imgElement = screen.getByRole('img', { name: /holberton logo/i });
+    expect(imgElement).toBeInTheDocument();
 });

@@ -1,11 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import BodySection from './BodySection';
-import { test, expect } from '@jest/globals';
-import { StyleSheetTestUtils } from 'aphrodite';
 
-StyleSheetTestUtils.suppressStyleInjection();
-
-test('Should pass any number of children without knows then beforehand', () => {
+test('It should pass any number of children without knows then beforehand', () => {
     render(
         <BodySection title="Test Title">
             <p>Child 1</p>
