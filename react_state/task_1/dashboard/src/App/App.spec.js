@@ -16,7 +16,6 @@ test('Renders Header component without craching', () => {
 
 test('Renders Login component without craching', () => {
   render(<Login />);
-
 });
 
 test('Renders Footer component without craching', () => {
@@ -25,7 +24,6 @@ test('Renders Footer component without craching', () => {
 
 test('Renders Notifications component without craching', () => {
   render(<Notifications />);
-
 });
 
 test('Renders 2 input elements and a button with the text "OK" when isLoggedIn is false', () => {
