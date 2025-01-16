@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import closeIcon from '../assets/close-icon.png';
+import closeIcon from '../assets/close-button.png';
 import NotificationItem from './NotificationItem';
 import './Notifications.css';
 
