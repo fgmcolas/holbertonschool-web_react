@@ -12,35 +12,29 @@ const renderWithContext = (value) => {
 };
 
 describe('Footer Component', () => {
-
-    test('renders correct copyright string when getFooterCopy returns true', () => {
+    test('Renders correct copyright string when getFooterCopy returns true', () => {
         expect(getFooterCopy(true)).toBe('Holberton School');
     });
 
-    test('does not display "Contact us" link when the user is logged out', () => {
+    test('Does not display "Contact us" link when the user is logged out', () => {
         const contextValue = {
             user: {
                 isLoggedIn: false,
             },
         };
-
         renderWithContext(contextValue);
-
         const contactLink = screen.queryByText('Contact us');
         expect(contactLink).toBeNull();
     });
 
-    test('displays "Contact us" link when the user is logged in', () => {
+    test('Displays "Contact us" link when the user is logged in', () => {
         const contextValue = {
             user: {
                 isLoggedIn: true,
             },
         };
-
         renderWithContext(contextValue);
-
         const contactLink = screen.getByText('Contact us');
         expect(contactLink).toBeInTheDocument();
     });
-
 })

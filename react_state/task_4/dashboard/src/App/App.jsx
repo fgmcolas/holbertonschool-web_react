@@ -10,7 +10,6 @@ import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBot
 import { newContext } from '../Context/context';
 import './App.css';
 
-
 const notificationsList = [
     { id: 1, type: 'default', value: 'New course available' },
     { id: 2, type: 'urgent', value: 'New resume available' },
@@ -21,7 +20,6 @@ const coursesList = [
     { id: 2, name: 'Webpack', credit: 20 },
     { id: 3, name: 'React', credit: 40 }
 ]
-
 
 class App extends React.Component {
     constructor(props) {
@@ -42,7 +40,6 @@ class App extends React.Component {
     componentWillUnmount() {
         document.removeEventListener('keydown', this.handleKeydown);
     }
-
 
     handleDisplayDrawer = () => {
         this.setState({ displayDrawer: true });
@@ -83,7 +80,6 @@ class App extends React.Component {
 
     render() {
         const { displayDrawer, user, logout, notifications, courses } = this.state;
-
         return (
             <newContext.Provider value={{ user, logout }}>
                 <Notification

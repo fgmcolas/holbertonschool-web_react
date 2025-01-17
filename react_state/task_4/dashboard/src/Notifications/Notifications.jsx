@@ -8,11 +8,9 @@ class Notifications extends PureComponent {
         super(props);
     }
 
-
     render() {
         const { notifications = [], displayDrawer = false, handleDisplayDrawer,
             handleHideDrawer, markNotificationAsRead } = this.props;
-
         return (
             <>
                 <div className="notification-title"
