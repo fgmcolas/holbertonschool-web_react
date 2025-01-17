@@ -72,7 +72,6 @@ class App extends React.Component {
 
     render() {
         const { displayDrawer, user, logOut } = this.state;
-
         return (
             <newContext.Provider value={{ user, logOut }}>
                 <Notification

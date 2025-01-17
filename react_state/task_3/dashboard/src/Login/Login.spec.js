@@ -6,7 +6,6 @@ import Login from "./Login";
 const logInMock = jest.fn();
 
 describe('Login Component', () => {
-
     test('Renders App body text', () => {
         render(<Login />);
         const bodyElement = screen.getByText(/Login to access the full dashboard/i);

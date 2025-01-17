@@ -5,7 +5,6 @@ import { newContext } from '../Context/context';
 
 class Header extends React.Component {
     static contextType = newContext;
-
     render() {
         const { user, logOut } = this.context;
         return (
