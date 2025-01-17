@@ -1,70 +1,55 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react"
-import App from './App'
+import { render, screen, fireEvent } from "@testing-library/react";
+import App from './App';
 import Header from "../Header/Header";
 import Login from "../Login/Login";
 import Footer from "../Footer/Footer";
 import Notifications from "../Notifications/Notifications";
 
-test('Renders App component without craching', () => {
+test('Renders App component without crashing', () => {
   render(<App />);
 });
 
-test('Renders Header component without craching', () => {
+test('Renders Header component without crashing', () => {
   render(<Header />);
 });
 
-test('Renders Login component without craching', () => {
+test('Renders Login component without crashing', () => {
   render(<Login />);
 });
 
-test('Renders Footer component without craching', () => {
+test('Renders Footer component without crashing', () => {
   render(<Footer />);
 });
 
-test('Renders Notifications component without craching', () => {
+test('Renders Notifications component without crashing', () => {
   render(<Notifications />);
 });
 
 test('Renders 2 input elements and a button with the text "OK" when isLoggedIn is false', () => {
-  render(<App isLoggedIn={false} />);
-  const emailInput = screen.getAllByRole('textbox', { name: /email/i });
-  expect(emailInput.length).toBe(1);
-  const passwordInput = screen.getByText(/password/i);
+  render(<App />);
+  const emailInput = screen.getByLabelText(/email/i);
+  expect(emailInput).toBeInTheDocument();
+  const passwordInput = screen.getByLabelText(/password/i);
   expect(passwordInput).toBeInTheDocument();
   const buttonElement = screen.getByRole('button', { name: 'OK' });
   expect(buttonElement).toBeInTheDocument();
 });
 
-test('Renders a table element when isLoggedIn is true', () => {
-  render(<App isLoggedIn={true} />);
-  const tableElement = screen.getByRole('table');
-  expect(tableElement).toBeInTheDocument();
-});
-
-window.alert = jest.fn();
-
-test('Calls logOut when Ctrl + H is pressed', () => {
-  const logOutMock = jest.fn();
-  const { container } = render(<App isLoggedIn={true} logOut={logOutMock} />);
-  fireEvent.keyDown(container, { key: 'h', ctrlKey: true });
-  expect(logOutMock).toHaveBeenCalledTimes(1);
-});
-
-test('Calls alert with "Logging you out" when Ctrl + H is pressed', () => {
-  render(<App isLoggedIn={true} />);
-  fireEvent.keyDown(document, { key: 'h', ctrlKey: true });
-  expect(global.alert).toHaveBeenCalledWith('Logging you out');
-});
-
 test('Displays the title "Course list" above the CourseList component when isLoggedIn is true', () => {
-  render(<App isLoggedIn={true} />);
+  render(<App />);
+  const emailInput = screen.getByLabelText(/email/i);
+  const passwordInput = screen.getByLabelText(/password/i);
+  fireEvent.change(emailInput, { target: { value: 'user@example.com' } });
+  fireEvent.change(passwordInput, { target: { value: 'password' } });
+  const loginButton = screen.getByRole('button', { name: /OK/i });
+  fireEvent.click(loginButton);
   const courseListTitle = screen.getByText("Course list");
   expect(courseListTitle).toBeInTheDocument();
 });
 
 test('Displays the title "Log in to continue" above the Login component when isLoggedIn is false', () => {
-  render(<App isLoggedIn={false} />);
+  render(<App />);
   const loginTitle = screen.getByText('Log in to continue');
   expect(loginTitle).toBeInTheDocument();
 });

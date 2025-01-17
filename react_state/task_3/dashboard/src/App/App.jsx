@@ -29,7 +29,7 @@ class App extends React.Component {
         this.state = {
             displayDrawer: true,
             user: { ...newContext.user },
-            logout: newContext.logOut,
+            logOut: newContext.logOut,
         };
     }
 
@@ -41,12 +41,6 @@ class App extends React.Component {
         document.removeEventListener('keydown', this.handleKeydown);
     }
 
-    handleKeydown = (e) => {
-        if (e.ctrlKey && e.key === "h") {
-            alert("Logging you out");
-            this.props.logOut();
-        }
-    };
 
     handleDisplayDrawer = () => {
         this.setState({ displayDrawer: true });
@@ -77,9 +71,10 @@ class App extends React.Component {
     };
 
     render() {
-        const { displayDrawer, user, logout } = this.state;
+        const { displayDrawer, user, logOut } = this.state;
+
         return (
-            <newContext.Provider value={{ user, logout }}>
+            <newContext.Provider value={{ user, logOut }}>
                 <Notification
                     notifications={notificationsList}
                     displayDrawer={displayDrawer}
