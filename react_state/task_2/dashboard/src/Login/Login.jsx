@@ -4,7 +4,7 @@ import './Login.css';
 
 class Login extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             email: props.email || '',
             password: props.password || '',
@@ -15,8 +15,8 @@ class Login extends React.Component {
     handleLoginSubmit = (e) => {
         e.preventDefault();
         const { email, password } = this.state;
-        this.props.login(email, password)
-    }
+        this.props.login(email, password);
+    };
 
     validateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -72,9 +72,9 @@ class Login extends React.Component {
                     </div>
                 </div>
             </form>
-        )
+        );
     }
 }
 
-const LoginWithLogging = WithLogging(Login)
+const LoginWithLogging = WithLogging(Login);
 export default LoginWithLogging;

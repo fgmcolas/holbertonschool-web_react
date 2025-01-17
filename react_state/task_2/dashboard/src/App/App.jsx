@@ -1,7 +1,7 @@
 import React from 'react';
 import Notification from '../Notifications/Notifications';
 import Header from '../Header/Header';
-import Login from "../Login/Login"
+import Login from "../Login/Login";
 import Footer from '../Footer/Footer';
 import CourseList from '../CourseList/CourseList';
 import { getLatestNotification } from '../utils/utils';
@@ -23,13 +23,12 @@ const coursesList = [
 ];
 
 class App extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
-            displayDrawer: true,
+            displayDrawer: false,
             user: { ...newContext.user },
-            logout: newContext.logOut,
+            logout: this.logOut,
         };
     }
 
@@ -44,7 +43,7 @@ class App extends React.Component {
     handleKeydown = (e) => {
         if (e.ctrlKey && e.key === "h") {
             alert("Logging you out");
-            this.props.logOut();
+            this.state.logout();
         }
     };
 
@@ -77,9 +76,9 @@ class App extends React.Component {
     };
 
     render() {
-        const { displayDrawer, user, logout } = this.state;
+        const { displayDrawer, user } = this.state;
         return (
-            <newContext.Provider value={{ user, logout }}>
+            <newContext.Provider value={{ user, logout: this.state.logout }}>
                 <Notification
                     notifications={notificationsList}
                     displayDrawer={displayDrawer}
@@ -94,13 +93,14 @@ class App extends React.Component {
                         </BodySectionWithMarginBottom>
                     ) : (
                         <BodySectionWithMarginBottom title="Log in to continue">
-                            <Login login={this.logIn}
+                            <Login
+                                login={this.logIn}
                                 email={user.email}
-                                password={user.password} />
+                                password={user.password}
+                            />
                         </BodySectionWithMarginBottom>
                     )}
-                    <BodySection>
-                        News from the School
+                    <BodySection title="News from the School">
                         <p>Holberton School News goes here</p>
                     </BodySection>
                     <Footer />
