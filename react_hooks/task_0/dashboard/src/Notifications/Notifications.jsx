@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import closeIcon from '../assets/close-icon.png';
+import closeIcon from '../assets/close-button.png';
 import NotificationItem from './NotificationItem';
 import './Notifications.css';
 
@@ -7,7 +7,6 @@ class Notifications extends PureComponent {
     constructor(props) {
         super(props);
     }
-
     render() {
         const { notifications = [], displayDrawer = false, handleDisplayDrawer,
             handleHideDrawer, markNotificationAsRead } = this.props;

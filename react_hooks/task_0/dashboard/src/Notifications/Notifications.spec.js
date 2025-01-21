@@ -5,7 +5,6 @@ import { getLatestNotification } from '../utils/utils'
 
 describe('Notifications component', () => {
   const logSpy = jest.spyOn(console, 'log')
-
   test('Renders the notifications title', () => {
     const props = {
       notifications: [
@@ -72,26 +71,29 @@ describe('Notifications component', () => {
     expect(screen.getByText('No new notification for now')).toBeInTheDocument();
   });
 
-  test('It should rerender when prop values change', () => {
-    const consoleSpy = jest.spyOn(console, 'log');
+  test('Should rerender when prop values change', () => {
+    const markAsReadMock = jest.fn();
     const initialProps = {
-      displayDrawer: false,
-      notifications: [],
-    };
-    render(<Notifications {...initialProps} />);
-    expect(screen.queryByText('Here is the list of notifications')).toBeNull();
-    const updatedProps = {
       displayDrawer: true,
       notifications: [
-        { id: 1, type: 'default', value: 'New notification' }
+        { id: 1, type: 'default', value: 'New notification' },
+        { id: 2, type: 'urgent', value: 'Urgent notification' }
       ],
+      markNotificationAsRead: markAsReadMock,
     };
-    render(<Notifications {...updatedProps} />);
-    const firstListItemElement = screen.getAllByRole('listitem')[0];
-    fireEvent.click(firstListItemElement)
-    expect(consoleSpy).toHaveBeenCalledWith('Notification 1 has been marked as read')
-    expect(screen.getByText('Here is the list of notifications')).toBeInTheDocument();
-    expect(screen.getByRole('listitem')).toBeInTheDocument()
+    const { rerender } = render(<Notifications {...initialProps} />);
+    const listItems = screen.getAllByRole('listitem');
+    expect(listItems).toHaveLength(2);
+    fireEvent.click(screen.getByText('New notification'));
+    expect(markAsReadMock).toHaveBeenCalledWith(1);
+    const updatedProps = {
+      ...initialProps,
+      notifications: [
+        { id: 2, type: 'urgent', value: 'Urgent notification' }
+      ]
+    };
+    rerender(<Notifications {...updatedProps} />);
+    expect(screen.getAllByRole('listitem')).toHaveLength(1);
   });
 
   test('Should rerender when the notifications length changes', () => {
