@@ -13,7 +13,7 @@ test('Check whether the li element notification has the color red when the type 
     expect(liElement).toHaveStyle({ color: 'red' });
 });
 
-test('It should log to the console the "Notification id has been marked as read" with the correct notification item id', () => {
+test('Should log to the console the "Notification id has been marked as read" with the correct notification item id', () => {
     const mockMarkAsRead = jest.fn()
     render(<NotificationItem markAsRead={mockMarkAsRead} />);
     const firstListItemElement = screen.getAllByRole('listitem')[0];
