@@ -13,10 +13,11 @@ describe('Login Component', () => {
     });
 
     test('Renders 2 input elements', () => {
-        render(<Login />);
-        const inputElements = screen.getAllByRole('textbox');
-        const passwordInputs = screen.getAllByRole('textbox', { hidden: true });
-        expect(inputElements.length + passwordInputs.length).toBe(2);
+        render(<Login login={jest.fn()} />);
+        const emailInput = screen.getByLabelText(/Email:/i);
+        const passwordInput = screen.getByLabelText(/Password:/i);
+        expect(emailInput).toBeInTheDocument();
+        expect(passwordInput).toBeInTheDocument();
     });
 
     test('Renders 2 label elements with text Email and Password', () => {
@@ -35,8 +36,8 @@ describe('Login Component', () => {
 
     test('Focuses the email input when the email label is clicked', async () => {
         render(<Login />)
-        const emailInput = screen.getByLabelText('Email');
-        const emailLabel = screen.getByText('Email');
+        const emailInput = screen.getByLabelText(/Email/i);
+        const emailLabel = screen.getByText(/Email/i);
         userEvent.click(emailLabel);
         await waitFor(() => {
             expect(emailInput).toHaveFocus();
@@ -63,16 +64,15 @@ describe('Login Component', () => {
         expect(submitButton).toBeDisabled();
     });
 
-    test('Calls logIn method with the correct email and password when form is submitted', () => {
-        render(<Login logIn={logInMock} />);
+    test('Calls login method with the correct email and password when form is submitted', () => {
+        const loginMock = jest.fn();
+        render(<Login login={loginMock} />);
         const emailInput = screen.getByLabelText(/email/i);
         const passwordInput = screen.getByLabelText(/password/i);
-        fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-        fireEvent.change(passwordInput, { target: { value: 'password123' } });
         const submitButton = screen.getByRole('button', { name: /ok/i });
         fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
         fireEvent.change(passwordInput, { target: { value: 'password123' } });
-        fireEvent.submit(submitButton);
-        expect(logInMock).toHaveBeenCalledWith('test@example.com', 'password123');
+        fireEvent.submit(screen.getByRole('form'));
+        expect(loginMock).toHaveBeenCalledWith('test@example.com', 'password123');
     });
 });

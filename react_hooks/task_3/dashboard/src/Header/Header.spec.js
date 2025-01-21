@@ -16,7 +16,7 @@ describe('Header Component', () => {
         expect(imgElement).toBeInTheDocument();
     });
 
-    test('Does not display the logoutSection when user is not logged in', () => {
+    test('Doesnt display the logoutSection when user is not logged in', () => {
         render(
             <newContext.Provider value={{ user: { isLoggedIn: false, email: '' }, logOut: jest.fn() }}>
                 <Header />
@@ -44,4 +44,4 @@ describe('Header Component', () => {
         fireEvent.click(screen.getByText(/logout/));
         expect(mockLogOut).toHaveBeenCalled();
     });
-})
+});

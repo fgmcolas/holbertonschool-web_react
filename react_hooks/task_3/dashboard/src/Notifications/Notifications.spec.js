@@ -3,10 +3,9 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import Notifications from './Notifications';
 import { getLatestNotification } from '../utils/utils'
 
-
 describe('Notifications component', () => {
   const logSpy = jest.spyOn(console, 'log')
-  test('renders the notifications title', () => {
+  test('Renders the notifications title', () => {
     const props = {
       notifications: [
         { id: 1, type: 'default', value: 'New course available' },
@@ -107,7 +106,6 @@ describe('Notifications component', () => {
       { id: 1, type: 'default', value: 'Notification 1' },
       { id: 2, type: 'urgent', value: 'Notification 2' },
     ];
-
     const { rerender } = render(
       <Notifications
         notifications={initialNotifications}
@@ -129,7 +127,6 @@ describe('Notifications component', () => {
     );
     expect(screen.getAllByRole('listitem').length).toBe(2);
   });
-
 
   test('Calls handleDisplayDrawer when clicking on the menu item', () => {
     const handleDisplayDrawerMock = jest.fn();
