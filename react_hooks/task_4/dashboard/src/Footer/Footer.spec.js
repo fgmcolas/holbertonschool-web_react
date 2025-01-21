@@ -37,4 +37,4 @@ describe('Footer Component', () => {
         const contactLink = screen.getByText('Contact us');
         expect(contactLink).toBeInTheDocument();
     });
-})
+});
