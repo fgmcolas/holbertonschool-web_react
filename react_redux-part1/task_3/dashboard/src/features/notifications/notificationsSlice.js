@@ -21,19 +21,16 @@ export const fetchNotifications = createAsyncThunk(
             type: 'urgent',
             html: { __html: getLatestNotification() },
         };
-
         const currentNotifications = response.data.notifications;
         const indexToReplace = currentNotifications.findIndex(
             (notification) => notification.id === 3
         );
-
         const updatedNotifications = [...currentNotifications];
         if (indexToReplace !== -1) {
             updatedNotifications[indexToReplace] = latestNotif;
         } else {
             updatedNotifications.push(latestNotif);
         }
-
         return updatedNotifications;
     }
 );
