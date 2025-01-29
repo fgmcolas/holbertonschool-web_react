@@ -5,8 +5,9 @@ import { getCurrentYear, getFooterCopy } from '../../utils/utils';
 describe('Footer Component', () => {
     const defaultUser = { isLoggedIn: false, email: '', password: '' };
     const loggedInUser = { isLoggedIn: true, email: 'test@example.com', password: 'password123' };
+
     describe('Basic Rendering', () => {
-        test('Renders without crashing', () => {
+        test('renders without crashing', () => {
             render(<Footer user={defaultUser} />);
             const footerParagraph = screen.getByText(`Copyright ${getCurrentYear()} - ${getFooterCopy(true)}`);
             expect(footerParagraph).toHaveTextContent(/copyright \d{4} - holberton school/i);
@@ -26,7 +27,7 @@ describe('Footer Component', () => {
     });
 
     describe('Edge Scenarios', () => {
-        test('does not render contact link when user email is null', () => {
+        test('Does not render contact link when user email is null', () => {
             const withTruthyIsLoggedIn = { isLoggedIn: true };
             render(<Footer user={withTruthyIsLoggedIn} />);
             const link = screen.queryByRole('link', { name: /contact us/i });
@@ -36,7 +37,6 @@ describe('Footer Component', () => {
         test('Does not render contact link when user email is invalid', () => {
             const withFalsyIsLoggedIn = { isLoggedIn: false };
             render(<Footer user={withFalsyIsLoggedIn} />);
-
             const link = screen.queryByRole('link', { name: /contact us/i });
             expect(link).not.toBeInTheDocument();
         });
