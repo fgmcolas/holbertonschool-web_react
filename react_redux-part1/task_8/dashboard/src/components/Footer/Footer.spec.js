@@ -1,51 +1,50 @@
 import { render, screen } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
 import Footer from './Footer';
-import { getCurrentYear, getFooterCopy } from '../../utils/utils';
+import authSlice, { login } from '../../features/auth/authSlice';
 
-describe('Footer Component', () => {
-    const defaultUser = { isLoggedIn: false, email: '', password: '' };
-    const loggedInUser = { isLoggedIn: true, email: 'test@example.com', password: 'password123' };
-
-    describe('Basic Rendering', () => {
-        test('renders without crashing', () => {
-            render(<Footer user={defaultUser} />);
-            const footerParagraph = screen.getByText(`Copyright ${getCurrentYear()} - ${getFooterCopy(true)}`);
-            expect(footerParagraph).toHaveTextContent(/copyright \d{4} - holberton school/i);
-        });
-
-        test('Does not render contact link when user is not logged in', () => {
-            render(<Footer user={defaultUser} />);
-            const link = screen.queryByRole('link', { name: /contact us/i });
-            expect(link).not.toBeInTheDocument();
-        });
-
-        test('Renders contact link when user is logged in', () => {
-            render(<Footer user={loggedInUser} />);
-            const link = screen.getByRole('link', { name: /contact us/i });
-            expect(link).toBeInTheDocument();
+describe('Footer', () => {
+    let store;
+    beforeEach(() => {
+        store = configureStore({
+            reducer: {
+                auth: authSlice,
+            },
         });
     });
 
-    describe('Edge Scenarios', () => {
-        test('Does not render contact link when user email is null', () => {
-            const withTruthyIsLoggedIn = { isLoggedIn: true };
-            render(<Footer user={withTruthyIsLoggedIn} />);
-            const link = screen.queryByRole('link', { name: /contact us/i });
-            expect(link).toBeInTheDocument();
-        });
-
-        test('Does not render contact link when user email is invalid', () => {
-            const withFalsyIsLoggedIn = { isLoggedIn: false };
-            render(<Footer user={withFalsyIsLoggedIn} />);
-            const link = screen.queryByRole('link', { name: /contact us/i });
-            expect(link).not.toBeInTheDocument();
-        });
+    test('Renders without crashing', () => {
+        const currentYear = new Date().getFullYear();
+        const expectedText = `Copyright ${currentYear} - Holberton School`;
+        render(
+            <Provider store={store}>
+                <Footer />
+            </Provider>
+        );
+        const footerText = screen.getByText(expectedText);
+        expect(footerText).toBeTruthy();
     });
 
-    test('Should confirm Footer is a functional component', () => {
-        const FooterPrototype = Object.getOwnPropertyNames(Footer.prototype);
-        expect(FooterPrototype).toEqual(expect.arrayContaining(['constructor']));
-        expect(FooterPrototype).toHaveLength(1);
-        expect(Footer.prototype.__proto__).toEqual({});
+    test('Displays "Contact us" link when logged in', () => {
+        store.dispatch(login({ email: 'test@example.com', password: 'password123' }));
+        render(
+            <Provider store={store}>
+                <Footer />
+            </Provider>
+        );
+        const contactUsLink = screen.getByText(/contact us/i);
+        expect(contactUsLink).toBeInTheDocument();
+        expect(contactUsLink).toBeInstanceOf(HTMLAnchorElement);
+        expect(contactUsLink).toHaveAttribute('href');
+    });
+
+    test('Does not display "Contact us" link when logged out', () => {
+        render(
+            <Provider store={store}>
+                <Footer />
+            </Provider>
+        );
+        expect(screen.queryByText(/contact us/i)).not.toBeInTheDocument();
     });
 });
