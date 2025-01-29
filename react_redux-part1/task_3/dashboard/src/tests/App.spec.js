@@ -1,4 +1,3 @@
-// Catch browser warns and errors
 const originalError = console.error;
 const originalWarn = console.warn;
 
