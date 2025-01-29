@@ -1,15 +1,26 @@
 import { memo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { markNotificationAsRead, showDrawer, hideDrawer } from '../../features/notifications/notificationsSlice';
+import NotificationItem from '../NotificationItem/NotificationItem';
 import './Notifications.css';
 import closeIcon from '../../assets/close-icon.png';
-import NotificationItem from '../NotificationItem/NotificationItem';
 
-const Notifications = memo(function Notifications({
-    displayDrawer,
-    handleDisplayDrawer,
-    handleHideDrawer,
-    notifications = [],
-    markNotificationAsRead
-}) {
+const Notifications = memo(function Notifications() {
+    const dispatch = useDispatch();
+    const { notifications, displayDrawer } = useSelector((state) => state.notifications);
+
+    const handleDisplayDrawer = () => {
+        dispatch(showDrawer());
+    };
+
+    const handleHideDrawer = () => {
+        dispatch(hideDrawer());
+    };
+
+    const handleMarkNotificationAsRead = (id) => {
+        dispatch(markNotificationAsRead(id));
+    };
+
     return (
         <>
             <div className="notification-title" onClick={handleDisplayDrawer}>
@@ -24,14 +35,14 @@ const Notifications = memo(function Notifications({
                                 <img src={closeIcon} alt="close icon" />
                             </button>
                             <ul>
-                                {notifications.map(notification => (
+                                {notifications.map((notification) => (
                                     <NotificationItem
                                         key={notification.id}
                                         id={notification.id}
                                         type={notification.type}
                                         value={notification.value}
                                         html={notification.html}
-                                        markAsRead={() => markNotificationAsRead(notification.id)}
+                                        markAsRead={handleMarkNotificationAsRead}
                                     />
                                 ))}
                             </ul>
