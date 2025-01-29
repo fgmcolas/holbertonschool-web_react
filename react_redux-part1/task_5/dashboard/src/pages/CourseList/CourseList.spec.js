@@ -10,7 +10,7 @@ test('Should render the CourseList component without crashing', () => {
         ]
     }
     render(<CourseList {...props} />)
-});
+})
 
 test('Should render the CourseList component with 5 rows', () => {
     const props = {
@@ -21,11 +21,9 @@ test('Should render the CourseList component with 5 rows', () => {
         ]
     }
     render(<CourseList {...props} />)
-
     const rowElements = screen.getAllByRole('row');
-
     expect(rowElements).toHaveLength(5)
-});
+})
 
 test('Should render the CourseList component with 1 rows', () => {
     const props = {
@@ -34,4 +32,4 @@ test('Should render the CourseList component with 1 rows', () => {
     render(<CourseList {...props} />)
     const rowElements = screen.getAllByRole('row');
     expect(rowElements).toHaveLength(1)
-});
+})
