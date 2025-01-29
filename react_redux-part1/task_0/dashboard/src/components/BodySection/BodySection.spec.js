@@ -9,6 +9,7 @@ test('Should pass any number of children without knows then beforehand', () => {
             <p>Child 3</p>
         </BodySection>
     );
+
     const titleElement = screen.getByRole('heading', { name: /test title/i });
     expect(titleElement).toBeInTheDocument();
     expect(screen.getByText('Child 1')).toBeInTheDocument();
