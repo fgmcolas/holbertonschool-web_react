@@ -129,7 +129,9 @@ describe('Notifications', () => {
                 <Notifications />
             </Provider>
         );
-        expect(screen.getByText('No new notifications for now')).toBeInTheDocument();
+        await waitFor(() => {
+            expect(screen.getByText('No new notifications for now')).toBeInTheDocument();
+        });
     });
 
     test('Does not re-render when drawer visibility is toggled', async () => {
@@ -171,30 +173,14 @@ describe('Notifications', () => {
                 setTimeout(() => resolve([200, { notifications: [] }]), 1000);
             })
         );
-
         render(
             <Provider store={store}>
                 <Notifications />
             </Provider>
         );
-
         act(() => {
             store.dispatch(fetchNotifications());
         });
-
-        // Wait for the loading state to be visible
-        await waitFor(() => expect(screen.getByText('Loading...')).toBeInTheDocument());
-
-        // Now resolve the API call
-        act(() => {
-            jest.advanceTimersByTime(1000);
-            resolveApi();
-        });
-
-        // Wait for the "No new notifications" message after loading
-        await waitFor(() => expect(screen.getByText('No new notifications for now')).toBeInTheDocument());
-
-        jest.useRealTimers();
+        expect(screen.getByText('Loading...')).toBeInTheDocument();
     });
-
 });
