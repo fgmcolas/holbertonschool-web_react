@@ -25,8 +25,8 @@ const coursesSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(fetchCourses.fulfilled, (state) => {
-                state.courses = 'Hello';
+            .addCase(fetchCourses.fulfilled, (state, action) => {
+                state.courses = action.payload;
             })
             .addCase(logout, (state) => {
                 state.courses = initialState.courses;
