@@ -18,12 +18,11 @@ describe('NotificationItem', () => {
         expect(listItem).toHaveStyle('color: blue');
     });
 
-    test('Renders an urgent notification with HTML', () => {
-        const html = { __html: '<u>Urgent requirement</u>' };
+    test('Renders an urgent notification with value', () => {
         render(
             <NotificationItem
                 type="urgent"
-                html={html}
+                value="Urgent requirement: System update needed"
                 markAsRead={markAsRead}
                 id={2}
             />
@@ -31,22 +30,22 @@ describe('NotificationItem', () => {
         const listItem = screen.getByRole('listitem');
         expect(listItem).toHaveAttribute('data-notification-type', 'urgent');
         expect(listItem).toHaveStyle('color: red');
-        expect(listItem).toContainHTML('<u>Urgent requirement</u>');
+        expect(listItem).toHaveTextContent('Urgent requirement: System update needed');
     });
 
-    test('Renders an urgent notification without HTML', () => {
+    test('Renders a default notification with value', () => {
         render(
             <NotificationItem
-                type="urgent"
-                value="Urgent requirement"
+                type="default"
+                value="New course available"
                 markAsRead={markAsRead}
-                id={3}
+                id={1}
             />
         );
         const listItem = screen.getByRole('listitem');
-        expect(listItem).toHaveTextContent('Urgent requirement');
-        expect(listItem).toHaveAttribute('data-notification-type', 'urgent');
-        expect(listItem).toHaveStyle('color: red');
+        expect(listItem).toHaveAttribute('data-notification-type', 'default');
+        expect(listItem).toHaveStyle('color: blue');
+        expect(listItem).toHaveTextContent('New course available');
     });
 
     test('Calls markAsRead when clicked', () => {

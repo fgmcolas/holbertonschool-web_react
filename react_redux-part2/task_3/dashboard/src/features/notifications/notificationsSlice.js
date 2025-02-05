@@ -1,10 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { getLatestNotification } from '../../utils/utils';
 
 const initialState = {
     notifications: [],
-    loading: false
+    loading: false,
 };
 
 const API_BASE_URL = 'http://localhost:5173';
@@ -16,25 +15,17 @@ export const fetchNotifications = createAsyncThunk(
     'notifications/fetchNotifications',
     async () => {
         const response = await axios.get(ENDPOINTS.notifications);
-        const latestNotif = {
-            id: 3,
-            type: 'urgent',
-            html: { __html: getLatestNotification() },
-        };
-        const currentNotifications = response.data.notifications;
-        const indexToReplace = currentNotifications.findIndex(
-            (notification) => notification.id === 3
-        );
-        const updatedNotifications = [...currentNotifications];
-        if (indexToReplace !== -1) {
-            updatedNotifications[indexToReplace] = latestNotif;
-        } else {
-            updatedNotifications.push(latestNotif);
-        }
-        return updatedNotifications;
+
+        return response.data
+            .filter(notification => notification.context.isRead === false)
+            .map(notification => ({
+                id: notification.id,
+                type: notification.context.type,
+                isRead: notification.context.isRead,
+                value: notification.context.value
+            }));
     }
 );
-
 const notificationsSlice = createSlice({
     name: 'notifications',
     initialState,
@@ -54,8 +45,8 @@ const notificationsSlice = createSlice({
                 state.loading = true;
             })
             .addCase(fetchNotifications.fulfilled, (state, action) => {
-                state.loading = false;
                 state.notifications = action.payload;
+                state.loading = false;
             })
             .addCase(fetchNotifications.rejected, (state) => {
                 state.loading = false;
