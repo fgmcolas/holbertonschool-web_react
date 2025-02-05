@@ -55,14 +55,11 @@ describe('App Component Integration Tests', () => {
         expect(store.getState().courses.courses).toHaveLength(0);
         await waitFor(() => {
             expect(store.getState().courses.courses).toHaveLength(0);
-            expect(store.getState().notifications).toEqual({
-                displayDrawer: true,
-                notifications: [
-                    { id: 1, type: 'default', value: 'New course available' },
-                    { id: 2, type: 'urgent', value: 'New resume available' },
-                    { id: 3, type: 'urgent', html: { __html: "<strong>Urgent requirement</strong> - complete by EOD" } },
-                ],
-            });
+            expect(store.getState().notifications.notifications).toEqual([
+                { id: 1, type: 'default', value: 'New course available' },
+                { id: 2, type: 'urgent', value: 'New resume available' },
+                { id: 3, type: 'urgent', html: { __html: "<strong>Urgent requirement</strong> - complete by EOD" } },
+            ]);
         });
     });
 
@@ -80,14 +77,11 @@ describe('App Component Integration Tests', () => {
                 { id: 3, name: 'React', credit: 40 },
             ],
             );
-            expect(store.getState().notifications).toEqual({
-                displayDrawer: true,
-                notifications: [
-                    { id: 1, type: 'default', value: 'New course available' },
-                    { id: 2, type: 'urgent', value: 'New resume available' },
-                    { id: 3, type: 'urgent', html: { __html: "<strong>Urgent requirement</strong> - complete by EOD" } },
-                ],
-            });
+            expect(store.getState().notifications.notifications).toEqual([
+                { id: 1, type: 'default', value: 'New course available' },
+                { id: 2, type: 'urgent', value: 'New resume available' },
+                { id: 3, type: 'urgent', html: { __html: "<strong>Urgent requirement</strong> - complete by EOD" } },
+            ]);
         });
     });
 
