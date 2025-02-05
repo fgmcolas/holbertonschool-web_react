@@ -4,7 +4,7 @@ import { getLatestNotification } from '../../utils/utils';
 
 const initialState = {
     notifications: [],
-    displayDrawer: true,
+    loading: false
 };
 
 const API_BASE_URL = 'http://localhost:5173';
@@ -46,19 +46,22 @@ const notificationsSlice = createSlice({
             );
             console.log(`Notification ${notificationId} has been marked as read`);
         },
-        showDrawer: (state) => {
-            state.displayDrawer = true;
-        },
-        hideDrawer: (state) => {
-            state.displayDrawer = false;
-        },
     },
+
     extraReducers: (builder) => {
-        builder.addCase(fetchNotifications.fulfilled, (state, action) => {
-            state.notifications = action.payload;
-        });
+        builder
+            .addCase(fetchNotifications.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(fetchNotifications.fulfilled, (state, action) => {
+                state.loading = false;
+                state.notifications = action.payload;
+            })
+            .addCase(fetchNotifications.rejected, (state) => {
+                state.loading = false;
+            });
     },
 });
 
-export const { markNotificationAsRead, showDrawer, hideDrawer } = notificationsSlice.actions;
+export const { markNotificationAsRead } = notificationsSlice.actions;
 export default notificationsSlice.reducer;

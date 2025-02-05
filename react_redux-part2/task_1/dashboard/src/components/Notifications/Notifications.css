@@ -49,3 +49,13 @@ li[data-priority="urgent"] {
   visibility: hidden;
   transform: translateY(-20px);
 }
+
+.loading {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: rgb(114, 111, 111);
+  float: right;
+  position: absolute;
+  right: 20px;
+  top: 25px;
+}

@@ -1,7 +1,5 @@
 import notificationsSlice, {
     markNotificationAsRead,
-    showDrawer,
-    hideDrawer,
     fetchNotifications,
 } from '../notifications/notificationsSlice';
 import axios from 'axios';
@@ -12,7 +10,7 @@ const mock = new MockAdapter(axios);
 describe('notificationsSlice', () => {
     const initialState = {
         notifications: [],
-        displayDrawer: true,
+        loading: false
     };
 
     test('Should return the initial state', () => {
@@ -39,32 +37,13 @@ describe('notificationsSlice', () => {
         );
     });
 
-    test('Should handle showDrawer', () => {
-        const action = showDrawer();
-        const expectedState = {
-            ...initialState,
-            displayDrawer: true,
-        };
-        expect(notificationsSlice(initialState, action)).toEqual(expectedState);
-    });
-
-    test('Should handle hideDrawer', () => {
-        const stateWithDrawerClosed = {
-            ...initialState,
-            displayDrawer: false,
-        };
-        const action = hideDrawer();
-        expect(notificationsSlice(initialState, action)).toEqual(
-            stateWithDrawerClosed
-        );
-    });
-
     describe('fetchNotifications async thunk', () => {
         test('Should handle fetchNotifications.pending', () => {
             const action = { type: fetchNotifications.pending.type };
             const state = notificationsSlice(initialState, action);
             expect(state).toEqual({
                 ...initialState,
+                loading: true,
             });
         });
 
@@ -92,7 +71,7 @@ describe('notificationsSlice', () => {
         });
 
         test('Should handle fetchNotifications.rejected when endpoint is incorrect', async () => {
-            const incorrectEndpoint = 'http://localhost:5173/notifictions.json'; // Typo in "notifications"
+            const incorrectEndpoint = 'http://localhost:5173/notifictions.json';
             mock.onGet(incorrectEndpoint).reply(404);
             const dispatch = jest.fn();
             const getState = jest.fn();

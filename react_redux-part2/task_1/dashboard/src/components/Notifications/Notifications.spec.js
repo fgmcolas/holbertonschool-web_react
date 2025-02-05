@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { act, render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import axios from 'axios';
@@ -6,10 +6,16 @@ import MockAdapter from 'axios-mock-adapter';
 import Notifications from './Notifications';
 import notificationsSlice, { fetchNotifications } from '../../features/notifications/notificationsSlice';
 
+const flushPromises = () => new Promise(jest.requireActual('timers').setImmediate);
+
+async function advanceTimersAndFlush(ms) {
+    jest.advanceTimersByTime(ms);
+    await flushPromises();
+}
+
 describe('Notifications', () => {
     let store;
     let mockAxios;
-
     beforeEach(() => {
         store = configureStore({
             reducer: {
@@ -100,7 +106,6 @@ describe('Notifications', () => {
         const notificationsResponse = await axios.get('http://localhost:5173/notifications.json');
         expect(notificationsResponse.data.notifications).toHaveLength(3);
         await store.dispatch(fetchNotifications());
-
         render(
             <Provider store={store}>
                 <Notifications />
@@ -156,4 +161,40 @@ describe('Notifications', () => {
         expect(container.querySelector('.Notifications')).toHaveClass('visible');
         expect(renderCount).toBe(1);
     });
+
+    test('Displays loading indicator with fake timers', async () => {
+        jest.useFakeTimers();
+        let resolveApi;
+        mockAxios.onGet('http://localhost:5173/notifications.json').reply(() =>
+            new Promise(resolve => {
+                resolveApi = resolve;
+                setTimeout(() => resolve([200, { notifications: [] }]), 1000);
+            })
+        );
+
+        render(
+            <Provider store={store}>
+                <Notifications />
+            </Provider>
+        );
+
+        act(() => {
+            store.dispatch(fetchNotifications());
+        });
+
+        // Wait for the loading state to be visible
+        await waitFor(() => expect(screen.getByText('Loading...')).toBeInTheDocument());
+
+        // Now resolve the API call
+        act(() => {
+            jest.advanceTimersByTime(1000);
+            resolveApi();
+        });
+
+        // Wait for the "No new notifications" message after loading
+        await waitFor(() => expect(screen.getByText('No new notifications for now')).toBeInTheDocument());
+
+        jest.useRealTimers();
+    });
+
 });
