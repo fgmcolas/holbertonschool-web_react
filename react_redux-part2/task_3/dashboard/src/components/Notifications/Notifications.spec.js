@@ -233,7 +233,7 @@ describe('Notifications', () => {
             await act(async () => {
                 await store.dispatch(fetchNotifications());
             });
-            const { container } = render(
+            render(
                 <Provider store={store}>
                     <Notifications />
                 </Provider>
@@ -250,7 +250,7 @@ describe('Notifications', () => {
             await act(async () => {
                 await store.dispatch(fetchNotifications());
             });
-            const { container } = render(
+            render(
                 <Provider store={store}>
                     <Notifications />
                 </Provider>
@@ -262,5 +262,6 @@ describe('Notifications', () => {
             fireEvent.click(defaultButton);
             expect(screen.getAllByRole('listitem')).toHaveLength(10);
         });
+
     });
 });
