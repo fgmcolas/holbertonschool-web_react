@@ -1,4 +1,4 @@
-import { memo, useCallback, useRef, useState, useMemo } from 'react';
+import { memo, useCallback, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { markNotificationAsRead } from '../../features/notifications/notificationsSlice';
 import NotificationItem from '../NotificationItem/NotificationItem';
@@ -6,23 +6,20 @@ import { getFilteredNotifications } from '../../features/selectors/notifications
 import './Notifications.css';
 import closeIcon from '../../assets/close-icon.png';
 
-
 const Notifications = memo(function Notifications() {
     const dispatch = useDispatch();
     const { loading } = useSelector((state) => state.notifications);
     const [currentFilter, setCurrentFilter] = useState('all');
-    const filteredNotifications = useSelector(state =>
-        getFilteredNotifications(state, currentFilter)
-    );
+    const filteredNotifications = useSelector(state => getFilteredNotifications(state, currentFilter));
     const DrawerRef = useRef(null);
     const handleToggleDrawer = useCallback(() => {
         DrawerRef.current.classList.toggle('visible');
     }, []);
     const handleSetFilterUrgent = useCallback(() => {
-        setCurrentFilter(prev => prev === 'urgent' ? 'all' : 'urgent');
+        setCurrentFilter(prev => (prev === 'urgent' ? 'all' : 'urgent'));
     }, []);
     const handleSetFilterDefault = useCallback(() => {
-        setCurrentFilter(prev => prev === 'default' ? 'all' : 'default');
+        setCurrentFilter(prev => (prev === 'default' ? 'all' : 'default'));
     }, []);
     const handleMarkNotificationAsRead = useCallback((id) => {
         dispatch(markNotificationAsRead(id));
@@ -33,7 +30,7 @@ const Notifications = memo(function Notifications() {
                 Your notifications
             </div>
             {loading ? (
-                <div className='loading'>Loading...</div>
+                <div className="loading">Loading...</div>
             ) : (
                 <>
                     <div className="Notifications visible" ref={DrawerRef}>
@@ -44,8 +41,8 @@ const Notifications = memo(function Notifications() {
                                     <img src={closeIcon} alt="close icon" />
                                 </button>
                                 <div>
-                                    <button className='urgent' onClick={handleSetFilterUrgent}>‼️</button>
-                                    <button className='default' onClick={handleSetFilterDefault}>??</button>
+                                    <button className="urgent" onClick={handleSetFilterUrgent}>‼️</button>
+                                    <button className="default" onClick={handleSetFilterDefault}>??</button>
                                 </div>
                                 <ul>
                                     {filteredNotifications.map((notification) => (
